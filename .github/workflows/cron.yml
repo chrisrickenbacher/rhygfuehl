@@ -9,5 +9,5 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/aggregation
-      - uses: ./.github/workflows/deployment
+      - uses: ./.github/workflows/aggregation.yml
+      - uses: ./.github/workflows/deployment.yml
