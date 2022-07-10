@@ -1,9 +1,9 @@
-name: cd
+name: deployment
 
 on: [push, pull_request]
 
 jobs:
-  cd:
+  deployment:
     runs-on: ${{ matrix.os }}
 
     strategy:
