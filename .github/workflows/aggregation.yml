@@ -1,5 +1,8 @@
 name: aggregation
 
+on:
+  workflow_call:
+
 jobs:
   aggregation:
     runs-on: ubuntu-latest
