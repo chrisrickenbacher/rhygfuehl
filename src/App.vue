@@ -1,30 +1,64 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div :class="theme">
+    <div class="min-h-screen dark:bg-darkblue bg-white">
+      <div class="px-5 pt-4 flex items-center justify-between">
+        <div class="flex-grow-0">
+          <button type="button" @click="toggle()" class="inline-flex items-center justify-center dark:text-white light:text-darkblue focus:outline-none">
+            <span class="sr-only">Open main menu</span>
+            <span class="text-2xl h-6 w-6 material-icons">menu</span>
+          </button>
+        </div>
+        <div class="flex-grow text-darkblue dark:text-white font-bold text-2xl mx-4">
+          <h1><router-link :to="actualSection.path" >{{$t(actualSection.name)}}</router-link></h1>
+        </div>
+      </div>
+      <MainNavigation :sections="sections" :sites="sites" />
+      <router-view> </router-view>
+    </div>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup>
+import { useStore } from 'vuex';
+import { computed, onBeforeMount, ref } from 'vue';
+import { useRouter } from "vue-router";
+import MainNavigation from "./components/MainNavigation.vue"
 
-nav {
-  padding: 30px;
-}
+const store = useStore()
+const toggle = () => { store.commit('toggle') };
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+const router = useRouter();
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+const theme = computed(() => store.state.theme.theme);
+
+onBeforeMount(() => {
+   store.dispatch("initTheme");
+})
+
+const sections = computed(() => {
+  const sr = []
+  router.options.routes.forEach(r => {
+    if(r['meta']){
+      if ( r.meta.isSection === true ) {
+          sr.push(r)
+      }
+    }
+  })
+  return sr
+});
+
+const actualSection = ref(sections.value[0])
+
+const sites = computed(() => {
+  const sr = []
+  router.options.routes.forEach(r => {
+    if(r['meta']){
+      if ( r.meta.isSite === true ) {
+          sr.push(r)
+      }
+    }
+  })
+  return sr
+});
+
+</script>

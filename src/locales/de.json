@@ -1,0 +1,23 @@
+{
+    "imprint": "Impressum",
+    "bs_rhein": "Rhein Basel",
+    "waterTemp": "Wassertemperatur",
+    "airTemp": "Lufttemperatur",
+    "waterLevel": "Pegelstand",
+    "week": "Woche",
+    "month": "Monat",
+    "Source": "Quelle",
+    "Contact": "Kontakt",
+    "Frequently asked questions": "Häufige Fragen",
+    "How warm is the Rhine?": "Wie warm ist der Rhein?",
+    "What is the air temperature on the Rhine in Basel?": "Wie hoch ist die Lufttemperatur am Rhein in Basel?",
+    "The air temperature at the Rhine in Basel is currently %airTemp% °C.": "Die Lufttemperatur am Rhein in Basel ist aktuell %airTemp%°C.",
+    "The Rhine in Basel currently has a water temperature of %waterTemp% °C.": "Der Rhein in Basel hat aktuell eine Wassertemperatur von %waterTemp% °C.",
+    "Current water temperature": "Aktueller Wassertemperatur",
+    "Level in m.a.s.l. or deviation from the last annual average": "Pegel in m.ü.M. bzw. Abweichung vom letzten Jahresschnitt",
+    "Current temperature at Unterer Rheinweg": "Aktuelle Temperatur am Unteren Rheinweg",
+    "seo": {
+        "title": "rhygfuehl.ch | Aktuelle Rheintemperatur in Basel",
+        "description": "Rhygfuehl.ch zeigt die aktuelle Rheintemperatur von Basel in einer übersichtlichen App, die einfach über einen Webbrowser aufgerufen werden kann. Die App zeigt zudem einen vereinfachten Temperaturverlauf der letzten 12 Stunden und die aktuelle Lufttemperatur an der Unteren Rheingasse."
+    }
+}

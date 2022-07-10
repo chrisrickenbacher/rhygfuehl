@@ -1,0 +1,14 @@
+{
+    "imprint": "Imprint",
+    "bs_rhein": "Rhine Basel",
+    "waterTemp": "Water temperature",
+    "airTemp": "Air temperature",
+    "waterLevel": "Water level",
+    "week": "Week",
+    "month": "Month",
+
+    "seo": {
+        "title": "rhygfuehl.ch | Current Rhine temperature in Basel",
+        "description": "Rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app that can be easily accessed via a web browser. The app also shows a simplified temperature history of the last 12 hours and the current air temperature at Untere Rheingasse"
+    }
+}
