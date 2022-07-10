@@ -1,0 +1,13 @@
+name: cron
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '*/30 * * * *'
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/aggregation
+      - uses: ./.github/workflows/deployment

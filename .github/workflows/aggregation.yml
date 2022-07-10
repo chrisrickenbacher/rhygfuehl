@@ -1,0 +1,17 @@
+name: aggregation
+
+jobs:
+  aggregation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+          cache-dependency-path: ./data/requirements.txt
+      - run: pip install -r ./data/requirements.txt
+      - run: python ./data/aggregation.py
+      - uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
