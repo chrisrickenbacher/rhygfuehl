@@ -3,8 +3,8 @@
         :chart-options="{
             responsive: true,
             plugins: {
-                legends: {
-                    display: false
+                legend: {
+                    display: false,
                 }
             },
             elements: {
@@ -28,11 +28,21 @@
                     max: props.max,
                     ticks: {
                         stepSize: 1,
-                        maxTicksLimit: props.ticks
+                        maxTicksLimit: props.ticks,
+                        color: color
+                    },
+                    grid: {
+                        borderColor: gray,
+                        color: gray
                     }
+                    
                 },
                 x: {
-                    display: false
+                    display: false,
+                    grid: {
+                        borderColor: gray,
+                        color: gray
+                    }
                 }
             }
         }"
@@ -48,10 +58,13 @@
 
 <script setup>
 import tailwindconfig from '@/../tailwind.config.js'
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
+import { useStore } from 'vuex';
 import { Line } from 'vue-chartjs'
 import { Chart as ChartJS, Title, LineElement,LinearScale, PointElement, CategoryScale } from 'chart.js'
 ChartJS.register( Title, LineElement, LinearScale, PointElement, CategoryScale )
+
+const store = useStore()
 
 // eslint-disable-next-line
 const props = defineProps({
@@ -68,5 +81,8 @@ const props = defineProps({
         type: Number
     }
 })
-const color = tailwindconfig.theme.colors.darkblue
+const theme = computed(() => store.state.theme.theme);
+const color = theme.value === 'dark' ? tailwindconfig.theme.colors.darkblue : '#fff';
+const gray = tailwindconfig.theme.colors.gray[200];
+
 </script>

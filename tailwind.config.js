@@ -12,7 +12,7 @@ module.exports = {
     colors: {
       darkblue: '#213A4E',
       white: '#FFFFFF',
-      gray: colors.trueGray,
+      gray: colors.gray
     },
     fontFamily: {
       sans: ['Roboto']
