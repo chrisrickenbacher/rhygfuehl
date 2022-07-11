@@ -11,6 +11,7 @@ jobs:
     uses: ./.github/workflows/aggregation.yml
 
   deployment:
+    needs: [data-aggregation]
     name: deployment
     uses: ./.github/workflows/deployment.yml
     
