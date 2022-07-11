@@ -1,0 +1,9 @@
+name: upgrade
+
+on: [push, pull_request]
+
+jobs:
+  deployment:
+    name: deployment
+    uses: ./.github/workflows/deployment.yml
+    
