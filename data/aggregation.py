@@ -72,7 +72,7 @@ for e in d['records']:
         waterData['chart']['month'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
 
-updateJsonFile( 'data/waterData.json', waterData)
+updateJsonFile( 'data/data/waterData.json', waterData)
 
 # Air temperature
 airData = {}
@@ -139,7 +139,7 @@ for e in d['records']:
         airData['chart']['month'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
 
-updateJsonFile( 'data/airData.json', airData)
+updateJsonFile( 'data/data/airData.json', airData)
 
 # Water level
 levelData = {}
@@ -206,4 +206,4 @@ for e in d['records']:
         levelData['chart']['month'].append(e['record']['fields']['pegel'])
         oldT = e['record']['fields']['pegel']
 
-updateJsonFile( 'data/levelData.json', levelData)
+updateJsonFile( 'data/data/levelData.json', levelData)
