@@ -6,12 +6,11 @@ on:
     - cron:  '*/30 * * * *'
 
 jobs:
-  cron:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Aggregation
-        uses: ./.github/workflows/aggregation.yml
-      - name: Deplyoment
-        uses: ./.github/workflows/deployment.yml
+  data-aggregation:
+    name: data-aggregation
+    uses: ./.github/workflows/aggregation.yml
+
+  deployment:
+    name: deployment
+    uses: ./.github/workflows/deployment.yml
+    
