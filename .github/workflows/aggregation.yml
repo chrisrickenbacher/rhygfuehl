@@ -18,3 +18,5 @@ jobs:
       - uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'cron data update ${date}'
+          branch: 'master'
