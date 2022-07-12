@@ -10,6 +10,9 @@ module.exports = defineConfig({
     appleMobileWebAppStatusBarStyle: 'black',
     iconPath: {
       faviconSVG: 'img/icons/favicon.svg', 
+    },
+    workboxOptions: {
+      skipWaiting: true
     }
   }
 })
