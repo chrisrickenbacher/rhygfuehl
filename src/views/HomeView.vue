@@ -2,7 +2,7 @@
   <div class="p-2 mt-5 md:max-w-screen-md md:mx-auto">
     <main class="grid grid-cols-1	md:grid-cols-2">
       <section v-for="(d, dIdx) in data" :key="dIdx" class="mb-5">
-        <div class="text-2xl font-normal text-darkblue dark:text-white p-2">{{$t(d.name)}}</div>
+        <div class="text-2xl font-normal text-darkblue dark:text-white p-2"><h2>{{$t(d.name)}}</h2></div>
           <transition
                 leave-active-class="transition ease-out duration-50"
                 leave-from-class="opacity-100"
