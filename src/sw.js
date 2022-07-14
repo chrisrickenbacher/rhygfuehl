@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+import { precacheAndRoute } from 'workbox-precaching'
+precacheAndRoute(self.__WB_MANIFEST)
 
 //Only if you use google analytics and wants to send the offline views
 workbox.googleAnalytics.initialize()
