@@ -11,8 +11,9 @@ module.exports = defineConfig({
     iconPath: {
       faviconSVG: 'img/icons/favicon.svg', 
     },
+    workboxPluginMode: 'InjectManifest',
     workboxOptions: {
-      skipWaiting: true
+      swSrc: 'src/sw.js'
     }
   }
 })
