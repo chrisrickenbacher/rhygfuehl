@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
-import { Plugin } from 'workbox-expiration';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching'
 precacheAndRoute(self.__WB_MANIFEST)
 
@@ -22,7 +21,7 @@ registerRoute(
   new CacheFirst({
     cacheName: 'images',
     plugins: [
-      new Plugin({
+      new ExpirationPlugin({
         maxEntries: 20,
         maxAgeSeconds: 7 * 24 * 60 * 60
       })
@@ -35,7 +34,7 @@ registerRoute(
   new CacheFirst({
     cacheName: 'googleapis',
     plugins: [
-      new Plugin({
+      new ExpirationPlugin({
         maxEntries: 30
       })
     ]
