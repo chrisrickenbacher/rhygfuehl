@@ -2,8 +2,8 @@
 import { precacheAndRoute } from 'workbox-precaching'
 precacheAndRoute(self.__WB_MANIFEST)
 
-//Only if you use google analytics and wants to send the offline views
-workbox.googleAnalytics.initialize()
+// //Only if you use google analytics and wants to send the offline views
+// workbox.googleAnalytics.initialize()
 
 // Use cache but update cache files in the background ASAP
 workbox.routing.registerRoute(
