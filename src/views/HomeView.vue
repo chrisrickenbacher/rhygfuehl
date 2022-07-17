@@ -1,7 +1,8 @@
 <template>
   <div class="mt-5 md:max-w-screen-md md:mx-auto">
-    <div v-if="refresh" class="text-center fixed bottom-0 w-full md:static mb-5 md:mb-2">
-      <button @click="refreshNow" type="button" class="inline-flex items-center px-3.5 py-2 border border-transparent text-md leading-4 font-medium rounded-full shadow-sm text-white bg-darkblue hover:bg-darkblue">
+    <div v-if="refresh" class="text-center fixed bottom-0 w-full md:static mb-20 md:mb-2">
+      <button @click="refreshNow" type="button" class="inline-flex items-center px-6 py-3 border rounded-full shadow-xl text-white dark:text-darkblue bg-darkblue dark:bg-white">
+      <span class="material-icons -ml-1 mr-3">refresh</span>
         Refresh data
       </button>
     </div>
@@ -48,7 +49,7 @@
               <div class="flex-grow text-white dark:text-darkblue text-4xl font-thin">{{ formatNumber(d.actualValue) }} {{d.unit}}</div>
               <div class="flex-grow-0 items-baseline align-middle">
                 <span v-if="d.name===currentSection" @click="currentSection=null" class="material-icons text-white dark:text-darkblue align-middle leading-10 rounded-full">unfold_less</span>
-                <span v-if="d.name!=currentSection" @click="currentSection=d.name" class="material-icons text-white dark:text-darkblue align-middle leading-10 hover:bg-gray-100 focus:bg-none rounded-full">unfold_more</span>
+                <span v-if="d.name!=currentSection" @click="currentSection=d.name" class="material-icons text-white dark:text-darkblue align-middle leading-10 hover:bg-gray-200 focus:bg-none rounded-full">unfold_more</span>
               </div>
             </div>
           </div>

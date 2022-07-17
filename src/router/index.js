@@ -23,6 +23,16 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: () => import(/* webpackChunkName: "about" */ '../views/FaqView.vue'),
+  },
+  {
+    path: '/en',
+    redirect: '/'
+  },
+  {
+    path: '/en/:slug',
+    redirect: to => {
+      return to.params.slug
+    }
   }
 ]
 

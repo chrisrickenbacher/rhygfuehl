@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{ content ? `${content}` : '' }}</template>
+  </metainfo>
   <div :class="theme">
     <div class="min-h-screen dark:bg-darkblue bg-white">
       <div class="px-5 pt-4 flex items-center justify-between">
@@ -14,6 +17,13 @@
       </div>
       <MainNavigation :sections="sections" :sites="sites" />
       <router-view> </router-view>
+      <footer class="mt-20 w-full text-center text-darkblue dark:text-white text-sm">
+        <div>Support this project</div>
+        <div class="inline-flex ">
+          <span class="material-icons text-sm mr-2">open_in_new</span>
+          <a class="underline" target="_blank" href="https://www.buymeacoffee.com/rhygfuehl">Buy me a coffee</a>
+        </div>
+      </footer>
     </div>
   </div>
 </template>
@@ -22,7 +32,9 @@
 import { useStore } from 'vuex';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useRouter } from "vue-router";
-import MainNavigation from "./components/MainNavigation.vue"
+import { useHead } from '@vueuse/head';
+import { useI18n } from 'vue-i18n';
+import MainNavigation from "./components/MainNavigation.vue";
 
 const store = useStore()
 const toggle = () => { store.commit('toggle') };
@@ -60,5 +72,21 @@ const sites = computed(() => {
   })
   return sr
 });
+
+const { t } = useI18n({ useScope: 'global' })
+
+useHead({
+  title: computed(() => t('seo.title')),
+  meta: [
+    {
+      name: `description`,
+      content: computed(() => t('seo.description')),
+    },
+    { 
+      name: 'keywords', 
+      content: 'basel, rheintemperatur, rhein, rhy, schwimmen, wassertemperatur, temperatur'
+    },
+  ],
+})
 
 </script>
