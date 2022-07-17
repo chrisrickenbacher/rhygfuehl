@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.2",
+    "@vueuse/head": "^0.7.6",
     "chart.js": "^3.8.0",
     "core-js": "^3.8.3",
     "json-loader": "^0.5.7",
