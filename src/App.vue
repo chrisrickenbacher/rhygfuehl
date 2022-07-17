@@ -17,6 +17,13 @@
       </div>
       <MainNavigation :sections="sections" :sites="sites" />
       <router-view> </router-view>
+      <footer class="mt-20 w-full text-center text-darkblue dark:text-white text-sm">
+        <div>Support this project</div>
+        <div class="inline-flex ">
+          <span class="material-icons text-sm mr-2">open_in_new</span>
+          <a class="underline" target="_blank" href="https://www.buymeacoffee.com/rhygfuehl">Buy me a coffee</a>
+        </div>
+      </footer>
     </div>
   </div>
 </template>
