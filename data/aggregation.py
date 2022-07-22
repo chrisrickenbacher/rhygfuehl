@@ -16,22 +16,18 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-try:
-    d['records'][0]['record']['fields']['rus_w_o_s3_te']
-except NameError:
-    print('temp not defined')
-    try: 
-        d['records'][1]['record']['fields']['rus_w_o_s3_te']
-    except NameError:
-        print('last temp not defined')
-        waterData['actualValue'] = 0
-        waterData['lastUpdate'] = None
-    else:
-        waterData['actualValue'] = d['records'][1]['record']['fields']['rus_w_o_s3_te']
-        waterData['lastUpdate'] = d['records'][1]['record']['fields']['startzeitpunkt']
-else:
+if d['records'][0]['record']['fields']['rus_w_o_s3_te'] is not None:
     waterData['actualValue'] = d['records'][0]['record']['fields']['rus_w_o_s3_te']
     waterData['lastUpdate'] = d['records'][0]['record']['fields']['startzeitpunkt']
+else:
+    print('newest temp is null we take next older one')
+    if d['records'][1]['record']['fields']['rus_w_o_s3_te'] is not None:
+        waterData['actualValue'] = d['records'][1]['record']['fields']['rus_w_o_s3_te']
+        waterData['lastUpdate'] = d['records'][1]['record']['fields']['startzeitpunkt']
+    else: 
+        print('no valid temp')
+        waterData['actualValue'] = 0
+        waterData['lastUpdate'] = None
 
 # Weekly data
 waterData['chart'] = {}
@@ -45,13 +41,11 @@ except requests.exceptions.RequestException as e:
 
 oldT = ''
 for e in d['records']:
-    try:
-        e['record']['fields']['temp']
-    except NameError:
-        waterData['chart']['week'].append(oldT | 0)
-    else:
+    if  e['record']['fields']['temp'] is not None:
         waterData['chart']['week'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
+    else:
+        waterData['chart']['week'].append(oldT | 0)
 
 # Monthly data
 waterData['chart']['month'] = []
@@ -64,13 +58,11 @@ except requests.exceptions.RequestException as e:
 
 oldT = ''
 for e in d['records']:
-    try:
-        e['record']['fields']['temp']
-    except NameError:
-        waterData['chart']['month'].append(oldT | 0)
-    else:
+    if e['record']['fields']['temp'] is not None:
         waterData['chart']['month'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
+    else:
+        waterData['chart']['month'].append(oldT | 0)
 
 updateJsonFile( 'data/data/waterData.json', waterData)
 
