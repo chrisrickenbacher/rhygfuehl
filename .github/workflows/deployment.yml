@@ -26,6 +26,9 @@ jobs:
 
       - name: Generate
         run: yarn run build
+      
+      - name: Woraround SPA
+        run: cp index.html 404.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
