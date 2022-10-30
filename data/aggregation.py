@@ -135,7 +135,7 @@ updateJsonFile( 'data/data/airData.json', airData)
 
 # Water level
 levelData = {}
-url = 'https://data.bs.ch/api/records/1.0/analyze?dataset=100089&y.pegel.func=AVG&y.pegel.expr=pegel&precision=year&x=timestamp&sort=-x'
+url = 'https://data.bs.ch/api/records/1.0/analyze?dataset=100089&y.pegel.func=AVG&y.pegel.expr=pegel&precision=year&x=timestamp&sort=-x&exclude.pegel=0'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
