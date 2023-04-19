@@ -1,1 +1,0 @@
-"use strict";(self["webpackChunkrhygfuehl"]=self["webpackChunkrhygfuehl"]||[]).push([[169],{3169:function(e){e.exports=JSON.parse('{"actualValue":0.5385378424657574,"lastUpdate":"2023-04-19T18:35:24.91Z","chart":{"week":[244.54234591318215,245.8987540229885],"month":[244.54632129117456]}}')}}]);
