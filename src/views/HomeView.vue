@@ -86,7 +86,7 @@ const collections = [
     name: 'airTemp',
     file: 'airData.json',
     unit: '°C',
-    description: 'Aktuelle Temperatur am Unteren Rheinweg',
+    description: 'Aktuelle Temperatur Mittlere Brücke',
     position: 2
   },
   {
