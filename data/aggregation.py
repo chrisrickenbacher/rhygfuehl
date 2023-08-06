@@ -199,3 +199,136 @@ for e in d['records']:
         oldT = e['record']['fields']['pegel']
 
 updateJsonFile( 'data/data/levelData.json', levelData)
+
+
+# Quality data
+qualityData = {}
+
+qualityData['quality'] = 2
+
+# Global radiation
+# Weekly data
+globalRadiationData = {}
+globalRadiationData['measure'] = 'globalRadiation'
+globalRadiationData['chart'] = {}
+globalRadiationData['chart']['week'] = []
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100254/records?select=gre000d0%20as%20globalRadiation&limit=7&pretty=false&timezone=UTC&order_by=date%20DESC'
+try: 
+    resp = requests.get(url=url)
+    d = resp.json()
+except requests.exceptions.RequestException as e:
+    raise SystemExit(e)
+
+oldD = ''
+for e in d['records']:
+    try:
+        e['record']['fields']['globalRadiation']
+    except NameError:
+        globalRadiationData['chart']['week'].append(oldD | 0)
+    else:
+        globalRadiationData['chart']['week'].append(e['record']['fields']['globalRadiation'])
+        oldD = e['record']['fields']['globalRadiation']
+
+qualityData['lastUpdate'] = d['records'][0]['record']['timestamp']
+
+globalRadiationLast72h = globalRadiationData['chart']['week'][0] + globalRadiationData['chart']['week'][1] + globalRadiationData['chart']['week'][2]
+globalRadiationLast48h = globalRadiationData['chart']['week'][0] + globalRadiationData['chart']['week'][1]
+
+# Monthly data
+globalRadiationData['chart']['month'] = []
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100254/records?select=avg(gre000d0)%20as%20globalRadiation&order_by=date%20DESC&group_by=range(date,2days)%20as%20date&limit=15&pretty=false&timezone=UTC'
+try: 
+    resp = requests.get(url=url)
+    d = resp.json()
+except requests.exceptions.RequestException as e:
+    raise SystemExit(e)
+
+oldD = ''
+for e in d['records']:
+    try:
+        e['record']['fields']['globalRadiation']
+    except NameError:
+        globalRadiationData['chart']['month'].append(oldD | 0)
+    else:
+        globalRadiationData['chart']['month'].append(e['record']['fields']['globalRadiation'])
+        oldD = e['record']['fields']['globalRadiation']
+
+qualityData['data'] = []
+qualityData['data'].append(globalRadiationData)
+
+
+# Rain
+# Weekly data
+rainData = {}
+rainData['measure'] = 'rain'
+rainData['chart'] = {}
+rainData['chart']['week'] = []
+url = "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=max(meta_rain24h_sum)%20as%20rain&where=name_original=\"034001AF\"&limit=7&pretty=false&timezone=UTC&order_by=date%20DESC&group_by=date_format(dates_max_date, 'yyyyMMdd') as date"
+try: 
+    resp = requests.get(url=url)
+    d = resp.json()
+except requests.exceptions.RequestException as e:
+    raise SystemExit(e)
+
+oldD = ''
+for e in d['records']:
+    try:
+        e['record']['fields']['rain']
+    except NameError:
+        rainData['chart']['week'].append(oldD | 0)
+    else:
+        rainData['chart']['week'].append(e['record']['fields']['rain'])
+        oldD = e['record']['fields']['rain']
+
+maxRainLast72h = rainData['chart']['week'][0]
+maxRainLast48h = maxRainLast72h
+if rainData['chart']['week'][1] > maxRainLast72h:
+    maxRainLast72h = rainData['chart']['week'][1]
+if rainData['chart']['week'][2] > maxRainLast72h:
+    maxRainLast72h = rainData['chart']['week'][2]
+if rainData['chart']['week'][1] > maxRainLast48h:
+    maxRainLast48h = rainData['chart']['week'][1]
+if rainData['chart']['week'][2] > maxRainLast48h:
+    maxRainLast48h = rainData['chart']['week'][2]
+
+# Monthly data
+rainData['chart']['month'] = []
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_rain24h_sum)%20as%20rain&where=name_original=\"034001AF\"&limit=15&pretty=false&timezone=UTC&order_by=date%20DESC&group_by=range(dates_max_date,2days) as date'
+try: 
+    resp = requests.get(url=url)
+    d = resp.json()
+except requests.exceptions.RequestException as e:
+    raise SystemExit(e)
+
+oldD = ''
+for e in d['records']:
+    try:
+        e['record']['fields']['rain']
+    except NameError:
+        rainData['chart']['month'].append(oldD | 0)
+    else:
+        rainData['chart']['month'].append(e['record']['fields']['rain'])
+        oldD = e['record']['fields']['rain']
+
+qualityData['data'].append(rainData)
+
+# Quality value
+dailyRainTreshold = 2.5
+dailyRadiationTreshold = 200
+
+print(f'dailyRainTreshold: {dailyRainTreshold}')
+print(f'dailyRadiationTreshold: {dailyRadiationTreshold}')
+print(f'maxRainLast72h: {maxRainLast72h}')
+print(f'maxRainLast48h: {maxRainLast48h}')
+print(f'globalRadiationLast72h: {globalRadiationLast72h}')
+print(f'globalRadiationLast48h: {globalRadiationLast48h}')
+
+if maxRainLast72h < dailyRainTreshold and globalRadiationLast72h > ( dailyRadiationTreshold * 3 ):
+    qualityData['quality'] = 3
+elif maxRainLast48h < dailyRainTreshold and globalRadiationLast48h > ( dailyRadiationTreshold * 2 ):
+    qualityData['quality'] = 2
+else:
+    qualityData['quality'] = 1
+
+updateJsonFile( 'data/data/qualityData.json', qualityData)
+
