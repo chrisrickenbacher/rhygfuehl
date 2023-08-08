@@ -313,8 +313,8 @@ for e in d['records']:
 qualityData['data'].append(rainData)
 
 # Quality value
-dailyRainTreshold = 2.5
-dailyRadiationTreshold = 200
+dailyRainTreshold = 2
+dailyRadiationTreshold = 170
 
 print(f'dailyRainTreshold: {dailyRainTreshold}')
 print(f'dailyRadiationTreshold: {dailyRadiationTreshold}')
