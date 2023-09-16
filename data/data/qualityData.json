@@ -1,18 +1,18 @@
 {
     "quality": 1,
-    "lastUpdate": "2023-09-15T14:00:07.254Z",
+    "lastUpdate": "2023-09-16T14:01:01.014Z",
     "data": [
         {
             "measure": "globalRadiation",
             "chart": {
                 "week": [
                     169.0,
+                    169.0,
                     89.0,
                     210.0,
                     226.0,
                     234.0,
-                    236.0,
-                    239.0
+                    236.0
                 ],
                 "month": [
                     169.0,
