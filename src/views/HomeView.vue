@@ -159,6 +159,14 @@ const collections = [
     description: 'Current water temperature',
     position: 1
   },
+  // {
+  //   name: 'waterQuality',
+  //   isBeta: true,
+  //   layout: 'quality',
+  //   file: 'qualityData.json',
+  //   description: 'Current water quality for swimming based on sunshine and rain over the last few days.',
+  //   position: 2
+  // },
   {
     name: 'waterQuality',
     isBeta: true,
