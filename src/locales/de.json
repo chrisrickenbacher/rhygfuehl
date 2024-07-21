@@ -23,6 +23,7 @@
     "Level in m.a.s.l. or deviation from the last annual average": "Pegel in m.ü.M. bzw. Abweichung vom letzten Jahresschnitt",
     "Current temperature at Mittlere Brücke": "Aktuelle Temperatur Mittlere Brücke",
     "Current water quality for swimming based on sunshine and rain over the last few days.": "Aktuelle Wasserqualität zum Schwimmen auf Basis der Sonneneinstrahlung und des Regens der letzten Tage.",
+    "Current temperature at Unterer Rheinweg": "Aktuelle Temperatur am Unteren Rheinweg",
     "seo": {
         "title": "rhygfuehl - Aktuelle Rheintemperatur in Basel",
         "description": "☀️ rhygfuehl.ch zeigt die aktuelle Rheintemperatur von Basel in einer übersichtlichen App, die einfach über einen Webbrowser aufgerufen werden kann. Die App zeigt zudem einen vereinfachten Temperaturverlauf der letzten 12 Stunden und die aktuelle Lufttemperatur an der Unteren Rheingasse."
