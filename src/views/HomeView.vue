@@ -280,7 +280,7 @@ const collections = [
     layout: "measurement",
     file: "airData.json",
     unit: "°C",
-    description: "Current temperature at Mittlere Brücke",
+    description: "Current temperature at Unterer Rheinweg",
     position: 3,
   },
   {
