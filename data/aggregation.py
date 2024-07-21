@@ -68,7 +68,7 @@ updateJsonFile( 'data/data/waterData.json', waterData)
 
 # Air temperature
 airData = {}
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340A010"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD8C"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -95,7 +95,7 @@ else:
 # Weekly data
 airData['chart'] = {}
 airData['chart']['week'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340A010"%20and%20record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD8C"%20and%20record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -114,7 +114,7 @@ for e in d['records']:
 
 # Monthly data
 airData['chart']['month'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340A010"%20and%20record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD8C"%20and%20record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
