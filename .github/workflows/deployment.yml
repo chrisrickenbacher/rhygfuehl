@@ -22,10 +22,10 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Generate
-        run: yarn run build
+        run: npm run build
       
       - name: Woraround SPA
         run: cp ./dist/index.html ./dist/404.html
