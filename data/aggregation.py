@@ -68,7 +68,7 @@ updateJsonFile( 'data/data/waterData.json', waterData)
 
 # Air temperature
 airData = {}
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD8C"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD89"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
