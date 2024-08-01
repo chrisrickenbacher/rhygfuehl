@@ -267,41 +267,48 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 last record",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original=\"0340AD89\"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original=\"0340AD89\"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC",
             "method": "GET",
             "sortNum": 70000,
             "created": "2023-11-27T09:57:06.779Z",
-            "modified": "2023-11-27T09:57:06.779Z",
+            "modified": "2024-07-21T08:12:36.840Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "meta_airtemp%20as%20temp"
+                    "value": "meta_airtemp%20as%20temp",
+                    "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\""
+                    "value": "name_original=\"0340AD89\"",
+                    "isPath": false
                 },
                 {
                     "name": "group_by",
                     "value": "day(startzeitpunkt)%20as%20time",
-                    "isDisabled": true
+                    "isDisabled": true,
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "1"
+                    "value": "1",
+                    "isPath": false
                 },
                 {
                     "name": "pretty",
-                    "value": "false"
+                    "value": "false",
+                    "isPath": false
                 },
                 {
                     "name": "timezone",
-                    "value": "UTC"
+                    "value": "UTC",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC"
+                    "value": "dates_max_date%20DESC",
+                    "isPath": false
                 }
             ]
         },
@@ -310,41 +317,37 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 week",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original=\"0340AD89\"%20and%20record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"0340AD89\" and dates_max_date>=now(days=-7)&group_by=range(dates_max_date, 6 hour) as time&limit=900&order_by=dates_max_date DESC",
             "method": "GET",
             "sortNum": 80000,
             "created": "2023-11-27T09:57:06.780Z",
-            "modified": "2023-11-27T09:57:06.780Z",
+            "modified": "2024-08-01T13:26:35.507Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "avg(meta_airtemp)%20as%20temp"
+                    "value": "avg(meta_airtemp) as temp",
+                    "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\"%20and%20record_timestamp%3E%3Dnow(days%3D-7)"
+                    "value": "name_original=\"0340AD89\" and dates_max_date>=now(days=-7)",
+                    "isPath": false
                 },
                 {
                     "name": "group_by",
-                    "value": "range(record_timestamp%2C%206%20hour)%20as%20time"
+                    "value": "range(dates_max_date, 6 hour) as time",
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "900"
-                },
-                {
-                    "name": "pretty",
-                    "value": "false"
-                },
-                {
-                    "name": "timezone",
-                    "value": ""
+                    "value": "900",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC",
-                    "isDisabled": true
+                    "value": "dates_max_date DESC",
+                    "isPath": false
                 }
             ]
         },
@@ -353,41 +356,48 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 month",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original=\"0340AD89\"%20and%20record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"0340AD89\" and record_timestamp>=now(days=-30)&group_by=range(record_timestamp,2days) as time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 90000,
             "created": "2023-11-27T09:57:06.781Z",
-            "modified": "2023-11-27T09:57:06.781Z",
+            "modified": "2024-08-01T13:28:01.014Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "avg(meta_airtemp)%20as%20temp"
+                    "value": "avg(meta_airtemp) as temp",
+                    "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\"%20and%20record_timestamp%3E%3Dnow(days%3D-30)"
+                    "value": "name_original=\"0340AD89\" and record_timestamp>=now(days=-30)",
+                    "isPath": false
                 },
                 {
                     "name": "group_by",
-                    "value": "range(record_timestamp,2days)%20as%20time"
+                    "value": "range(record_timestamp,2days) as time",
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "900"
+                    "value": "900",
+                    "isPath": false
                 },
                 {
                     "name": "pretty",
-                    "value": "false"
+                    "value": "false",
+                    "isPath": false
                 },
                 {
                     "name": "timezone",
-                    "value": "UTC"
+                    "value": "UTC",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
                     "value": "record_timestamp%20DESC",
-                    "isDisabled": true
+                    "isDisabled": true,
+                    "isPath": false
                 }
             ]
         },
@@ -463,7 +473,7 @@
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC",
+                    "value": "dates_max_date%20DESC",
                     "isDisabled": true
                 }
             ]
@@ -553,37 +563,43 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "9346f8b6-eded-4813-a4cf-f88fbdc26a90",
             "name": "pegelstand 2.0 last record",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=pegel&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=pegel&limit=1&pretty=false&timezone=UTC&order_by=timestamp%20DESC",
             "method": "GET",
             "sortNum": 140000,
             "created": "2023-11-27T09:57:06.786Z",
-            "modified": "2023-11-27T09:57:06.786Z",
+            "modified": "2024-08-01T13:33:12.771Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "pegel"
+                    "value": "pegel",
+                    "isPath": false
                 },
                 {
                     "name": "where",
                     "value": "",
-                    "isDisabled": true
+                    "isDisabled": true,
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "1"
+                    "value": "1",
+                    "isPath": false
                 },
                 {
                     "name": "pretty",
-                    "value": "false"
+                    "value": "false",
+                    "isPath": false
                 },
                 {
                     "name": "timezone",
-                    "value": "UTC"
+                    "value": "UTC",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC"
+                    "value": "timestamp%20DESC",
+                    "isPath": false
                 }
             ]
         },
@@ -592,41 +608,48 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "9346f8b6-eded-4813-a4cf-f88fbdc26a90",
             "name": "pegelstand 2.0 week",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=timestamp%3E%3Dnow(days%3D-7)&group_by=range(timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 150000,
             "created": "2023-11-27T09:57:06.787Z",
-            "modified": "2023-11-27T09:57:06.787Z",
+            "modified": "2024-08-01T13:33:24.199Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "avg(pegel)%20as%20pegel"
+                    "value": "avg(pegel)%20as%20pegel",
+                    "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "record_timestamp%3E%3Dnow(days%3D-7)"
+                    "value": "timestamp%3E%3Dnow(days%3D-7)",
+                    "isPath": false
                 },
                 {
                     "name": "group_by",
-                    "value": "range(record_timestamp%2C%206%20hour)%20as%20time"
+                    "value": "range(timestamp%2C%206%20hour)%20as%20time",
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "900"
+                    "value": "900",
+                    "isPath": false
                 },
                 {
                     "name": "pretty",
-                    "value": "false"
+                    "value": "false",
+                    "isPath": false
                 },
                 {
                     "name": "timezone",
-                    "value": "UTC"
+                    "value": "UTC",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC",
-                    "isDisabled": true
+                    "value": "timestamp%20DESC",
+                    "isDisabled": true,
+                    "isPath": false
                 }
             ]
         },
@@ -635,234 +658,48 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "9346f8b6-eded-4813-a4cf-f88fbdc26a90",
             "name": "pegelstand 2.0 month",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=timestamp%3E%3Dnow(days%3D-30)&group_by=range(timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 160000,
             "created": "2023-11-27T09:57:06.788Z",
-            "modified": "2023-11-27T09:57:06.788Z",
+            "modified": "2024-08-01T13:33:36.078Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "avg(pegel)%20as%20pegel"
+                    "value": "avg(pegel)%20as%20pegel",
+                    "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "record_timestamp%3E%3Dnow(days%3D-30)"
+                    "value": "timestamp%3E%3Dnow(days%3D-30)",
+                    "isPath": false
                 },
                 {
                     "name": "group_by",
-                    "value": "range(record_timestamp,2days)%20as%20time"
+                    "value": "range(timestamp,2days)%20as%20time",
+                    "isPath": false
                 },
                 {
                     "name": "limit",
-                    "value": "900"
+                    "value": "900",
+                    "isPath": false
                 },
                 {
                     "name": "pretty",
-                    "value": "false"
+                    "value": "false",
+                    "isPath": false
                 },
                 {
                     "name": "timezone",
-                    "value": "UTC"
+                    "value": "UTC",
+                    "isPath": false
                 },
                 {
                     "name": "order_by",
-                    "value": "record_timestamp%20DESC",
-                    "isDisabled": true
-                }
-            ]
-        },
-        {
-            "_id": "52c8ea1c-a6bf-46f3-ba78-a600ece9df18",
-            "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
-            "containerId": "",
-            "name": "Lufttemperatur",
-            "url": "https://data.bs.ch/api/records/1.0/search/?dataset=100009&q=&sort=dates_max_date&facet=name_original&facet=name_custom&facet=dates_max_date&refine.name_original=03409999",
-            "method": "GET",
-            "sortNum": 170000,
-            "created": "2023-11-27T09:57:06.789Z",
-            "modified": "2023-11-27T09:57:06.789Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "dataset",
-                    "value": "100009"
-                },
-                {
-                    "name": "q",
-                    "value": ""
-                },
-                {
-                    "name": "sort",
-                    "value": "dates_max_date"
-                },
-                {
-                    "name": "facet",
-                    "value": "name_original"
-                },
-                {
-                    "name": "facet",
-                    "value": "name_custom"
-                },
-                {
-                    "name": "facet",
-                    "value": "dates_max_date"
-                },
-                {
-                    "name": "refine.name_original",
-                    "value": "03409999"
-                }
-            ]
-        },
-        {
-            "_id": "3dbe673d-a796-49df-aa41-1158d95f146e",
-            "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
-            "containerId": "",
-            "name": "Pegelstand",
-            "url": "https://data.bs.ch/api/records/1.0/search?dataset=100089&sort=timestamp&q&rows=1",
-            "method": "GET",
-            "sortNum": 180000,
-            "created": "2023-11-27T09:57:06.790Z",
-            "modified": "2023-11-27T09:57:06.790Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "dataset",
-                    "value": "100089"
-                },
-                {
-                    "name": "sort",
-                    "value": "timestamp"
-                },
-                {
-                    "name": "q",
-                    "value": null
-                },
-                {
-                    "name": "rows",
-                    "value": "1"
-                }
-            ]
-        },
-        {
-            "_id": "65668307-de65-4dbd-bba9-873de3c1c3b1",
-            "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
-            "containerId": "",
-            "name": "st johann max temp",
-            "url": "https://data.bs.ch/api/records/1.0/analyze/?dataset=100009&sort=dates_max_date&rows=100&refine.name_custom=St.+Johann&q=dates_max_date>=%23now(days=-1)&y.meta_airtemp.func=MAX&y.meta_airtemp.expr=meta_airtemp&precision=day",
-            "method": "GET",
-            "sortNum": 190000,
-            "created": "2023-11-27T09:57:06.791Z",
-            "modified": "2023-11-27T09:57:06.791Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "dataset",
-                    "value": "100009"
-                },
-                {
-                    "name": "sort",
-                    "value": "dates_max_date"
-                },
-                {
-                    "name": "rows",
-                    "value": "100"
-                },
-                {
-                    "name": "facet",
-                    "value": "name_custom",
-                    "isDisabled": true
-                },
-                {
-                    "name": "refine.name_custom",
-                    "value": "St.+Johann"
-                },
-                {
-                    "name": "q",
-                    "value": "dates_max_date>=%23now(days=-1)"
-                },
-                {
-                    "name": "x",
-                    "value": "dates_max_date",
-                    "isDisabled": true
-                },
-                {
-                    "name": "y.meta_airtemp.func",
-                    "value": "MAX"
-                },
-                {
-                    "name": "y.meta_airtemp.expr",
-                    "value": "meta_airtemp"
-                },
-                {
-                    "name": "precision",
-                    "value": "day"
-                }
-            ]
-        },
-        {
-            "_id": "c184267a-98fe-4fcc-bfbe-620bb570a119",
-            "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
-            "containerId": "",
-            "name": "st johann rain last 24h",
-            "url": "https://data.bs.ch/api/records/1.0/search/?dataset=100009&sort=dates_max_date&rows=1&refine.name_original=0320024A",
-            "method": "GET",
-            "sortNum": 200000,
-            "created": "2023-11-27T09:57:06.792Z",
-            "modified": "2023-11-27T09:57:06.792Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "dataset",
-                    "value": "100009"
-                },
-                {
-                    "name": "sort",
-                    "value": "dates_max_date"
-                },
-                {
-                    "name": "facet",
-                    "value": "name_custom",
-                    "isDisabled": true
-                },
-                {
-                    "name": "q",
-                    "value": "dates_max_date>=%23now(days=-1)",
-                    "isDisabled": true
-                },
-                {
-                    "name": "x",
-                    "value": "dates_max_date",
-                    "isDisabled": true
-                },
-                {
-                    "name": "y.meta_airtemp.func",
-                    "value": "MAX",
-                    "isDisabled": true
-                },
-                {
-                    "name": "y.meta_airtemp.expr",
-                    "value": "meta_airtemp",
-                    "isDisabled": true
-                },
-                {
-                    "name": "precision",
-                    "value": "day",
-                    "isDisabled": true
-                },
-                {
-                    "name": "rows",
-                    "value": "1"
-                },
-                {
-                    "name": "refine.name_custom",
-                    "value": "St.+Johann",
-                    "isDisabled": true
-                },
-                {
-                    "name": "refine.name_original",
-                    "value": "0320024A"
+                    "value": "timestamp%20DESC",
+                    "isDisabled": true,
+                    "isPath": false
                 }
             ]
         }
