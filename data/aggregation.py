@@ -68,7 +68,7 @@ updateJsonFile( 'data/data/waterData.json', waterData)
 
 # Air temperature
 airData = {}
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD89"&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD89"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -95,7 +95,7 @@ else:
 # Weekly data
 airData['chart'] = {}
 airData['chart']['week'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD8C"%20and%20record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD89"%20and%20dates_max_date%3E%3Dnow(days%3D-7)&group_by=range(dates_max_date%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -114,7 +114,7 @@ for e in d['records']:
 
 # Monthly data
 airData['chart']['month'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD8C"%20and%20record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD89"%20and%20dates_max_date%3E%3Dnow(days%3D-30)&group_by=range(dates_max_date,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -143,7 +143,7 @@ except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 lastAvg = d[1]['pegel']
 
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=pegel&limit=1&pretty=false&timezone=UTC&order_by=record_timestamp%20DESC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=pegel&limit=1&pretty=false&timezone=UTC&order_by=timestamp%20DESC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -162,7 +162,7 @@ else:
 # Weekly data
 levelData['chart'] = {}
 levelData['chart']['week'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=record_timestamp%3E%3Dnow(days%3D-7)&group_by=range(record_timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=timestamp%3E%3Dnow(days%3D-7)&group_by=range(timestamp%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -181,7 +181,7 @@ for e in d['records']:
 
 # Monthly data
 levelData['chart']['month'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=record_timestamp%3E%3Dnow(days%3D-30)&group_by=range(record_timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100089/records?select=avg(pegel)%20as%20pegel&where=timestamp%3E%3Dnow(days%3D-30)&group_by=range(timestamp,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
