@@ -267,21 +267,21 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 last record",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original=\"0340AD89\"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=dates_max_date%20as%20date%2C%20meta_airtemp%20as%20temp&where=name_original=\"034003A7\"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC",
             "method": "GET",
             "sortNum": 70000,
             "created": "2023-11-27T09:57:06.779Z",
-            "modified": "2024-07-21T08:12:36.840Z",
+            "modified": "2024-10-06T11:13:37.636Z",
             "headers": [],
             "params": [
                 {
                     "name": "select",
-                    "value": "meta_airtemp%20as%20temp",
+                    "value": "dates_max_date%20as%20date%2C%20meta_airtemp%20as%20temp",
                     "isPath": false
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\"",
+                    "value": "name_original=\"034003A7\"",
                     "isPath": false
                 },
                 {
@@ -317,11 +317,11 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 week",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"0340AD89\" and dates_max_date>=now(days=-7)&group_by=range(dates_max_date, 6 hour) as time&limit=900&order_by=dates_max_date DESC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"034003A7\" and dates_max_date>=now(days=-7)&group_by=range(dates_max_date, 6 hour) as time&limit=900&order_by=dates_max_date DESC",
             "method": "GET",
             "sortNum": 80000,
             "created": "2023-11-27T09:57:06.780Z",
-            "modified": "2024-08-01T13:26:35.507Z",
+            "modified": "2024-10-06T11:13:43.342Z",
             "headers": [],
             "params": [
                 {
@@ -331,7 +331,7 @@
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\" and dates_max_date>=now(days=-7)",
+                    "value": "name_original=\"034003A7\" and dates_max_date>=now(days=-7)",
                     "isPath": false
                 },
                 {
@@ -356,11 +356,11 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "95d5d444-30cc-419b-98e4-ea64f808b15c",
             "name": "unterer rheinweg 2.0 month",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"0340AD89\" and record_timestamp>=now(days=-30)&group_by=range(record_timestamp,2days) as time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp) as temp&where=name_original=\"034003A7\" and record_timestamp>=now(days=-30)&group_by=range(record_timestamp,2days) as time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 90000,
             "created": "2023-11-27T09:57:06.781Z",
-            "modified": "2024-08-01T13:28:01.014Z",
+            "modified": "2024-10-06T11:13:46.839Z",
             "headers": [],
             "params": [
                 {
@@ -370,7 +370,7 @@
                 },
                 {
                     "name": "where",
-                    "value": "name_original=\"0340AD89\" and record_timestamp>=now(days=-30)",
+                    "value": "name_original=\"034003A7\" and record_timestamp>=now(days=-30)",
                     "isPath": false
                 },
                 {
