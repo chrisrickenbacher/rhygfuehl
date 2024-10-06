@@ -67,8 +67,9 @@ for e in d['records']:
 updateJsonFile( 'data/data/waterData.json', waterData)
 
 # Air temperature
+airStationId = '034003A7' # Rheinpromenade 2
 airData = {}
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=meta_airtemp%20as%20temp&where=name_original="0340AD89"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC'
+url = f'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=dates_max_date%20as%20date%2C%20meta_airtemp%20as%20temp&where=name_original="{airStationId}"&limit=1&pretty=false&timezone=UTC&order_by=dates_max_date%20DESC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -87,15 +88,15 @@ except NameError:
         airData['lastUpdate'] = None
     else:
         airData['actualValue'] = d['records'][1]['record']['fields']['temp']
-        airData['lastUpdate'] = d['records'][1]['record']['timestamp']
+        airData['lastUpdate'] = d['records'][1]['record']['fields']['date']
 else:
     airData['actualValue'] = d['records'][0]['record']['fields']['temp']
-    airData['lastUpdate'] = d['records'][0]['record']['timestamp']
+    airData['lastUpdate'] = d['records'][0]['record']['fields']['date']
 
 # Weekly data
 airData['chart'] = {}
 airData['chart']['week'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD89"%20and%20dates_max_date%3E%3Dnow(days%3D-7)&group_by=range(dates_max_date%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = f'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="{airStationId}"%20and%20dates_max_date%3E%3Dnow(days%3D-7)&group_by=range(dates_max_date%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -114,7 +115,7 @@ for e in d['records']:
 
 # Monthly data
 airData['chart']['month'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="0340AD89"%20and%20dates_max_date%3E%3Dnow(days%3D-30)&group_by=range(dates_max_date,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = f'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_airtemp)%20as%20temp&where=name_original="{airStationId}"%20and%20dates_max_date%3E%3Dnow(days%3D-30)&group_by=range(dates_max_date,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
