@@ -1,18 +1,18 @@
 {
     "quality": 1,
-    "lastUpdate": "2026-01-14T15:00:17.178Z",
+    "lastUpdate": "2026-01-15T15:00:07.163Z",
     "data": [
         {
             "measure": "globalRadiation",
             "chart": {
                 "week": [
                     65.0,
+                    65.0,
                     30.0,
                     14.0,
                     13.0,
                     43.0,
-                    23.0,
-                    71.0
+                    23.0
                 ],
                 "month": [
                     65.0,
