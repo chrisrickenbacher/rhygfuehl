@@ -24,9 +24,34 @@ const formatDate = (dateStr: string) => {
 		minute: '2-digit' 
 	});
 };
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": [
+		{
+			"@type": "Question",
+			"name": en.faqQ1,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": en.faqA1.replace('%waterTemp%', waterTemp)
+			}
+		},
+		{
+			"@type": "Question",
+			"name": en.faqQ2,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": en.faqA2.replace('%airTemp%', airTemp)
+			}
+		}
+	]
+};
 ---
 
 <Layout title={en.seo.title} description={seoDescription} lang="en">
+	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
 	<div class="space-y-4">
 		<MetricCard 
 			id="water-chart"
