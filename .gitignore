@@ -34,3 +34,4 @@ pnpm-debug.log*
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+dev-dist
