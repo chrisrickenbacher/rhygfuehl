@@ -1,0 +1,87 @@
+---
+import Footer from '../components/Footer.astro';
+import de from '../locales/de.json';
+import en from '../locales/en.json';
+
+interface Props {
+	title: string;
+	description: string;
+	lang: string;
+}
+
+const { title, description, lang } = Astro.props;
+const t = lang === 'de' ? de : en;
+---
+
+<!doctype html>
+<html lang={lang} class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/img/icons/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	</head>
+	<body class="min-h-screen bg-white dark:bg-darkblue text-darkblue dark:text-white transition-colors duration-300">
+		<header class="max-w-screen-md mx-auto px-5 pt-8 flex items-center justify-between">
+			<h1 class="text-2xl font-bold">
+				<a href={lang === 'de' ? '/' : '/en/'}>rhygfuehl</a>
+			</h1>
+			<nav>
+				<div class="flex bg-darkblue/5 dark:bg-white/5 p-1 rounded-full border border-darkblue/10 dark:border-white/10">
+					<a 
+						href="/" 
+						class={`px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ${lang === 'de' ? 'bg-white dark:bg-darkblue text-darkblue dark:text-white shadow-sm' : 'opacity-40 hover:opacity-100'}`}
+					>
+						DE
+					</a>
+					<a 
+						href="/en/" 
+						class={`px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ${lang === 'en' ? 'bg-white dark:bg-darkblue text-darkblue dark:text-white shadow-sm' : 'opacity-40 hover:opacity-100'}`}
+					>
+						EN
+					</a>
+				</div>
+			</nav>
+		</header>
+		<main class="max-w-screen-md mx-auto px-5 py-8">
+			<slot />
+		</main>
+		<Footer t={t} lang={lang} />
+		<style is:global>
+			.collapse-grid {
+				display: grid;
+				grid-template-rows: 0fr;
+				transition: grid-template-rows 0.3s ease-out;
+			}
+			.collapse-grid.is-open {
+				grid-template-rows: 1fr;
+			}
+			.collapse-inner {
+				overflow: hidden;
+			}
+		</style>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				const toggles = document.querySelectorAll('.metric-toggle');
+				toggles.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const content = toggle.nextElementSibling;
+						const icon = toggle.querySelector('.toggle-icon');
+						const isOpen = content.classList.contains('is-open');
+						
+						if (isOpen) {
+							content.classList.remove('is-open');
+							icon.textContent = 'unfold_more';
+						} else {
+							content.classList.add('is-open');
+							icon.textContent = 'unfold_less';
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

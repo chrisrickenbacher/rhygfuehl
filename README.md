@@ -1,10 +1,50 @@
-<h1 align="center">rhygfuehl.ch</h1>
-<p align="center">☀️ rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app that can be easily accessed via a web browser. The app also shows a simplified temperature history of the last 12 hours and the current air temperature at Untere Rheingasse.</p>
+<div align="center">
 
-<p align="center">
-<a><img height="30" src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D"></a>&nbsp;&nbsp;
-<a><img height="30" src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"></a>
-</p>
+# rhygfuehl.ch
 
-<h3 align="center">Support this project:</h3>
-<p align=center><a href="https://www.buymeacoffee.com/rhygfuehl" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;" ></a></p>
+
+
+☀️ rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app that can be easily accessed via a web browser. The app also shows a simplified temperature history of the last 12 hours and the current air temperature at Untere Rheingasse.
+
+<h3>Support this project:</h3>
+<p><a href="https://www.buymeacoffee.com/rhygfuehl" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;" ></a></p>
+
+</div>
+
+## How it works
+
+The application uses **Astro** for pre-rendering a static site with extreme SEO optimization and zero baseline JavaScript. 
+
+Every 15 minutes, a GitHub Actions cron job triggers the `data/aggregation.py` script to fetch the latest Rhine temperatures and water levels from the Open Data Basel-Stadt APIs. The script writes this data into static JSON files. 
+
+Immediately after fetching, the GitHub Action builds the Astro site, directly injecting the latest temperatures into the HTML `<meta name="description">` tags for immediate SEO indexing, and then deploys to GitHub Pages.
+
+## Local Development
+
+To run this project locally, ensure you have Node.js installed.
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
+   The site will be available at `http://localhost:4321`.
+
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
+   The static output will be generated in the `dist/` directory.
+
+## Contributing
+
+Contributions, issues and feature requests are welcome!
+Feel free to check [the issues page](https://github.com/chrisrickenbacher/rhygfuehl/issues).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

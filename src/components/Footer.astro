@@ -1,0 +1,31 @@
+---
+interface Props {
+	t: any;
+	lang: string;
+}
+
+const { t, lang } = Astro.props;
+const imprintLink = lang === 'de' ? '/impressum' : '/en/imprint';
+---
+
+<footer class="max-w-screen-md mx-auto px-5 pb-8 pt-4">
+	<div class="flex flex-col items-center gap-4">
+		<a href="https://www.buymeacoffee.com/rhygfuehl" target="_blank" class="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity">
+			<span class="material-icons text-base mr-2">local_cafe</span>
+			{t.coffee}
+		</a>
+		
+		<div class="flex items-center gap-6 text-sm font-medium opacity-60">
+			<a href={imprintLink} class="hover:opacity-100 transition-opacity underline decoration-darkblue/20 dark:decoration-white/20 underline-offset-4">
+				{t.imprint}
+			</a>
+			<a href="https://github.com/chrisrickenbacher/rhygfuehl" target="_blank" class="hover:opacity-100 transition-opacity underline decoration-darkblue/20 dark:decoration-white/20 underline-offset-4">
+				GitHub
+			</a>
+		</div>
+		
+		<div class="text-[10px] tracking-widest uppercase font-bold opacity-30 mt-2">
+			© {new Date().getFullYear()} rhygfuehl
+		</div>
+	</div>
+</footer>

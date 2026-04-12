@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MetricCard from '../components/MetricCard.astro';
+import waterData from '../../data/data/waterData.json';
+import airData from '../../data/data/airData.json';
+import levelData from '../../data/data/levelData.json';
+import de from '../locales/de.json';
+
+const waterTemp = waterData.actualValue.toFixed(1);
+const airTemp = airData.actualValue.toFixed(1);
+const waterLevel = levelData.actualValue.toFixed(2);
+
+const seoDescription = de.seo.description
+	.replace('%airTemp%', airTemp)
+	.replace('%waterTemp%', waterTemp);
+
+const formatDate = (dateStr: string) => {
+	const d = new Date(dateStr);
+	return d.toLocaleString('de-CH', { 
+		day: '2-digit', 
+		month: '2-digit', 
+		year: '2-digit', 
+		hour: '2-digit', 
+		minute: '2-digit' 
+	});
+};
+---
+
+<Layout title={de.seo.title} description={seoDescription} lang="de">
+	<div class="space-y-4">
+		<MetricCard 
+			id="water-chart"
+			title={de.waterTemp}
+			value={waterTemp}
+			unit="°C"
+			description={de.waterTempDesc}
+			lastUpdate={`${de.updateLabel}: ${formatDate(waterData.lastUpdate)}`}
+			dataWeek={waterData.chart.week}
+			dataMonth={waterData.chart.month}
+			textWeek={de.week}
+			textMonth={de.month}
+		/>
+
+		<MetricCard 
+			id="air-chart"
+			title={de.airTemp}
+			value={airTemp}
+			unit="°C"
+			description={de.airTempDesc}
+			lastUpdate={`${de.updateLabel}: ${formatDate(airData.lastUpdate)}`}
+			dataWeek={airData.chart.week}
+			dataMonth={airData.chart.month}
+			textWeek={de.week}
+			textMonth={de.month}
+		/>
+
+		<MetricCard 
+			id="level-chart"
+			title={de.waterLevel}
+			value={`${waterLevel > 0 ? '+' : ''}${waterLevel}`}
+			unit="m"
+			description={de.waterLevelDesc}
+			lastUpdate={`${de.updateLabel}: ${formatDate(levelData.lastUpdate)}`}
+			dataWeek={levelData.chart.week}
+			dataMonth={levelData.chart.month}
+			textWeek={de.week}
+			textMonth={de.month}
+		/>
+	</div>
+</Layout>

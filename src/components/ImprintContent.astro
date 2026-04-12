@@ -1,0 +1,77 @@
+---
+interface Props {
+	t: any;
+	lang: string;
+}
+
+const { t, lang } = Astro.props;
+
+const backLink = lang === 'de' ? '/' : '/en/';
+---
+
+<div class="max-w-none">
+	<h1 class="text-3xl font-bold mb-10">{t.imprint}</h1>
+	
+	<div class="space-y-10">
+		<!-- Data Sources -->
+		<div>
+			<h2 class="text-xs uppercase tracking-wider opacity-50 font-bold mb-4">{t.sources}</h2>
+			<dl class="space-y-6">
+				<div>
+					<dt class="text-sm font-bold text-darkblue dark:text-white opacity-80">{t.waterTemp}</dt>
+					<dd>
+						<a href="https://data.bs.ch/explore/dataset/100046/information/?sort=startzeitpunkt" target="_blank" class="text-sm underline hover:opacity-70 transition-opacity">
+							{t.sourceWeil}
+						</a>
+					</dd>
+				</div>
+				<div>
+					<dt class="text-sm font-bold text-darkblue dark:text-white opacity-80">{t.airTemp}</dt>
+					<dd>
+						<a href="https://data.bs.ch/explore/dataset/100082/table/?disjunctive.name_original&disjunctive.name_custom&sort=name_custom&q=034003A7" target="_blank" class="text-sm underline hover:opacity-70 transition-opacity">
+							{t.sourcePromenade}
+						</a>
+					</dd>
+				</div>
+				<div>
+					<dt class="text-sm font-bold text-darkblue dark:text-white opacity-80">{t.waterLevel}</dt>
+					<dd>
+						<a href="https://data.bs.ch/explore/dataset/100089/table/?sort=timestamp" target="_blank" class="text-sm underline hover:opacity-70 transition-opacity">
+							{t.sourceKleinbasel}
+						</a>
+					</dd>
+				</div>
+				<div>
+					<dt class="text-sm font-bold text-darkblue dark:text-white opacity-80">Open Data</dt>
+					<dd>
+						<a href="https://data.bs.ch/pages/home/" target="_blank" class="text-sm underline hover:opacity-70 transition-opacity">
+							{t.sourceCatalog}
+						</a>
+					</dd>
+				</div>
+			</dl>
+		</div>
+
+		<!-- Contact -->
+		<div>
+			<h2 class="text-xs uppercase tracking-wider opacity-50 font-bold mb-4">{t.contact}</h2>
+			<div class="flex flex-col gap-4">
+				<a href="mailto:rhygfuehl@cric.dev" class="text-sm underline inline-flex items-center hover:opacity-70 transition-opacity">
+					<span class="material-icons text-base mr-2">mail</span>
+					rhygfuehl@cric.dev
+				</a>
+				<a href="https://github.com/chrisrickenbacher/rhygfuehl" target="_blank" class="text-sm underline inline-flex items-center hover:opacity-70 transition-opacity">
+					<span class="material-icons text-base mr-2">open_in_new</span>
+					{t.github}
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="mt-12">
+		<a href={backLink} class="inline-flex items-center text-sm font-bold hover:opacity-70 transition-opacity">
+			<span class="material-icons text-base mr-1">arrow_back</span>
+			{t.back}
+		</a>
+	</div>
+</div>

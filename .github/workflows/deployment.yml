@@ -5,31 +5,24 @@ on:
 
 jobs:
   deployment:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [16]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
       - name: Setup node env
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Generate
+      - name: Build
         run: npm run build
       
-      - name: Woraround SPA
-        run: cp ./dist/index.html ./dist/404.html
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

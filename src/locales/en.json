@@ -1,19 +1,26 @@
 {
     "imprint": "Imprint",
-    "bs_rhein": "Rhine Basel",
     "waterTemp": "Water temperature",
     "airTemp": "Air temperature",
     "waterLevel": "Water level",
-    "waterQuality": "Water quality",
-    "globalRadiation": "Global Radiation in W/m2",
-    "rain": "Rain in mm",
     "week": "Week",
     "month": "Month",
-    "bad": "Bad",
-    "good": "Good",
-    "perfect": "Perfect",
+    "waterTempDesc": "Current water temperature",
+    "airTempDesc": "Current temperature along the Rhine promenade",
+    "waterLevelDesc": "Level in m.a.s.l. or deviation from the last annual average",
+    "updateLabel": "Updated",
+    "support": "Support this project",
+    "coffee": "Buy me a coffee",
+    "contact": "Contact",
+    "back": "Back to overview",
+    "sources": "Data Sources",
+    "sourceWeil": "Rhine monitoring station Weil am Rhein",
+    "sourcePromenade": "Measuring station Rheinpromenade 2 Basel",
+    "sourceKleinbasel": "Measuring station Kleinbasel (Birs confluence)",
+    "sourceCatalog": "Basel-Stadt Catalog",
+    "github": "Project on GitHub",
     "seo": {
         "title": "rhygfuehl - current Rhine temperature in Basel",
-        "description": "☀️ rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app that can be easily accessed via a web browser. The app also shows a simplified temperature history of the last 12 hours and the current air temperature at Untere Rheingasse"
+        "description": "☀️ The air temperature at the Rhine in Basel is currently %airTemp% °C. The Rhine in Basel currently has a water temperature of %waterTemp% °C. rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app."
     }
 }
