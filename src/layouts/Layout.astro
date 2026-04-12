@@ -148,18 +148,33 @@ const socialImageURL = new URL('/apple-touch-icon.png', 'https://rhygfuehl.ch');
 		<script is:inline>
 			document.addEventListener('DOMContentLoaded', () => {
 				const toggles = document.querySelectorAll('.metric-toggle');
+				
 				toggles.forEach(toggle => {
 					toggle.addEventListener('click', () => {
-						const content = toggle.nextElementSibling;
-						const icon = toggle.querySelector('.toggle-icon');
-						const isOpen = content.classList.contains('is-open');
+						const currentContent = toggle.nextElementSibling;
+						const currentIcon = toggle.querySelector('.toggle-icon');
+						const isOpen = currentContent.classList.contains('is-open');
 						
+						// Close all other cards
+						if (!isOpen) {
+							document.querySelectorAll('.collapse-grid.is-open').forEach(openContent => {
+								if (openContent !== currentContent) {
+									openContent.classList.remove('is-open');
+									// Find the associated icon and reset it
+									const otherToggle = openContent.previousElementSibling;
+									const otherIcon = otherToggle.querySelector('.toggle-icon');
+									if (otherIcon) otherIcon.classList.remove('rotate-180');
+								}
+							});
+						}
+
+						// Toggle current card
 						if (isOpen) {
-							content.classList.remove('is-open');
-							icon.classList.remove('rotate-180');
+							currentContent.classList.remove('is-open');
+							currentIcon.classList.remove('rotate-180');
 						} else {
-							content.classList.add('is-open');
-							icon.classList.add('rotate-180');
+							currentContent.classList.add('is-open');
+							currentIcon.classList.add('rotate-180');
 						}
 					});
 				});
