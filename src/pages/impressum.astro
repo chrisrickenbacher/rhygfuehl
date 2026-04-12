@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ImprintContent from '../components/ImprintContent.astro';
+import de from '../locales/de.json';
+---
+
+<Layout title={`${de.imprint} - rhygfuehl`} description={de.imprint} lang="de">
+	<ImprintContent t={de} lang="de" />
+</Layout>

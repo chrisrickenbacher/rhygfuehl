@@ -1,60 +1,26 @@
 {
   "name": "rhygfuehl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.2",
-    "@vueuse/head": "^0.7.6",
-    "chart.js": "^3.8.0",
-    "core-js": "^3.8.3",
-    "json-loader": "^0.5.7",
-    "numeral": "^2.0.6",
-    "register-service-worker": "^1.7.2",
-    "vue": "^3.2.13",
-    "vue-chartjs": "^4.1.1",
-    "vue-gtag": "^2.0.1",
-    "vue-i18n": "9",
-    "vue-moment": "^4.1.0",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.2"
+    "@astrojs/tailwind": "^5.1.0",
+    "@iconify-json/material-symbols": "^1.2.66",
+    "@vite-pwa/astro": "^0.4.0",
+    "astro": "^4.5.0",
+    "astro-icon": "^1.1.5",
+    "chart.js": "^4.4.2",
+    "tailwindcss": "^3.4.1",
+    "vite-plugin-pwa": "^0.19.0",
+    "workbox-window": "^7.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-pwa": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "autoprefixer": "^10.4.7",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "@tailwindcss/typography": "^0.5.10"
+  }
 }

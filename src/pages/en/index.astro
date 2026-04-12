@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MetricCard from '../../components/MetricCard.astro';
+import waterData from '../../../data/data/waterData.json';
+import airData from '../../../data/data/airData.json';
+import levelData from '../../../data/data/levelData.json';
+import en from '../../locales/en.json';
+
+const waterTemp = waterData.actualValue.toFixed(1);
+const airTemp = airData.actualValue.toFixed(1);
+const waterLevel = levelData.actualValue.toFixed(2);
+
+const seoDescription = en.seo.description
+	.replace('%airTemp%', airTemp)
+	.replace('%waterTemp%', waterTemp);
+
+const formatDate = (dateStr: string) => {
+	const d = new Date(dateStr);
+	return d.toLocaleString('en-GB', { 
+		day: '2-digit', 
+		month: '2-digit', 
+		year: '2-digit', 
+		hour: '2-digit', 
+		minute: '2-digit' 
+	});
+};
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": [
+		{
+			"@type": "Question",
+			"name": en.faqQ1,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": en.faqA1.replace('%waterTemp%', waterTemp)
+			}
+		},
+		{
+			"@type": "Question",
+			"name": en.faqQ2,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": en.faqA2.replace('%airTemp%', airTemp)
+			}
+		}
+	]
+};
+---
+
+<Layout title={en.seo.title} description={seoDescription} lang="en">
+	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+	<div class="space-y-4">
+		<MetricCard 
+			id="water-chart"
+			title={en.waterTemp}
+			value={waterTemp}
+			unit="°C"
+			description={en.waterTempDesc}
+			lastUpdate={`${en.updateLabel}: ${formatDate(waterData.lastUpdate)}`}
+			dataWeek={waterData.chart.week}
+			dataMonth={waterData.chart.month}
+			textWeek={en.week}
+			textMonth={en.month}
+		/>
+
+		<MetricCard 
+			id="air-chart"
+			title={en.airTemp}
+			value={airTemp}
+			unit="°C"
+			description={en.airTempDesc}
+			lastUpdate={`${en.updateLabel}: ${formatDate(airData.lastUpdate)}`}
+			dataWeek={airData.chart.week}
+			dataMonth={airData.chart.month}
+			textWeek={en.week}
+			textMonth={en.month}
+		/>
+
+		<MetricCard 
+			id="level-chart"
+			title={en.waterLevel}
+			value={`${waterLevel > 0 ? '+' : ''}${waterLevel}`}
+			unit="m"
+			description={en.waterLevelDesc}
+			lastUpdate={`${en.updateLabel}: ${formatDate(levelData.lastUpdate)}`}
+			dataWeek={levelData.chart.week}
+			dataMonth={levelData.chart.month}
+			textWeek={en.week}
+			textMonth={en.month}
+		/>
+	</div>
+</Layout>

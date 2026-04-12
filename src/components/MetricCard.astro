@@ -1,0 +1,61 @@
+---
+import LineChart from './LineChart.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+	id: string;
+	title: string;
+	value: string;
+	unit: string;
+	description: string;
+	lastUpdate: string;
+	dataWeek: number[];
+	dataMonth: number[];
+	textWeek: string;
+	textMonth: string;
+}
+
+const { 
+	id, 
+	title, 
+	value, 
+	unit, 
+	description, 
+	lastUpdate, 
+	dataWeek, 
+	dataMonth, 
+	textWeek, 
+	textMonth 
+} = Astro.props;
+---
+
+<section class="bg-darkblue/5 dark:bg-white/5 rounded-2xl p-6 transition-all duration-200 hover:bg-darkblue/[0.08] dark:hover:bg-white/[0.08]">
+	<div class="metric-toggle flex items-center justify-between cursor-pointer select-none h-24">
+		<div class="flex-1">
+			<h2 class="text-lg font-medium opacity-80 mb-1">{title}</h2>
+			<div class="text-5xl font-light">
+				{value}<span class="text-2xl ml-1">{unit}</span>
+			</div>
+		</div>
+		<div class="ml-4">
+			<Icon name="expand_more" class="w-10 h-10 opacity-40 transform transition-transform duration-200 toggle-icon" />
+		</div>
+	</div>
+	<div class="collapse-grid">
+		<div class="collapse-inner">
+			<div class="mt-2">
+				<LineChart 
+					id={id} 
+					dataWeek={dataWeek} 
+					dataMonth={dataMonth} 
+					textWeek={textWeek}
+					textMonth={textMonth}
+					lastUpdate={lastUpdate}
+				/>
+				<div class="text-sm opacity-70">
+					{description}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

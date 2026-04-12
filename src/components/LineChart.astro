@@ -1,0 +1,149 @@
+---
+interface Props {
+	id: string;
+	dataWeek: number[];
+	dataMonth: number[];
+	textWeek?: string;
+	textMonth?: string;
+	lastUpdate?: string;
+}
+
+const { id, dataWeek, dataMonth, textWeek = "Week", textMonth = "Month", lastUpdate } = Astro.props;
+---
+
+<div 
+	class="line-chart-container chart-container relative h-[250px] w-full my-4"
+	data-id={id}
+	data-week={JSON.stringify(dataWeek)}
+	data-month={JSON.stringify(dataMonth)}
+	data-text-week={textWeek}
+	data-text-month={textMonth}
+>
+	<div class="flex justify-between items-center mb-4">
+		<div class="flex gap-2">
+			<button
+				class="time-toggle px-3 py-1 text-xs rounded-full bg-gray-200 dark:bg-white/10 hover:opacity-80 transition-all"
+				data-time="week"
+			>
+				{textWeek}
+			</button>
+			<button
+				class="time-toggle px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-white/5 opacity-50 hover:opacity-100 transition-all"
+				data-time="month"
+			>
+				{textMonth}
+			</button>
+		</div>
+		{lastUpdate && <span class="text-xs opacity-60">{lastUpdate}</span>}
+	</div>
+	
+	<div class="relative h-[180px] w-full">
+		<canvas id={id}></canvas>
+		
+		<!-- Custom HTML X-Axis Labels -->
+		<div class="absolute bottom-[-25px] left-0 right-0 flex justify-between px-2 text-[10px] font-bold opacity-40 pointer-events-none">
+			<span class="period-start-label">-1 {textWeek}</span>
+			<span>→</span>
+		</div>
+	</div>
+</div>
+
+<script>
+	import Chart from 'chart.js/auto';
+
+	const initCharts = () => {
+		const containers = document.querySelectorAll('.line-chart-container');
+		
+		containers.forEach(container => {
+			const id = container.getAttribute('data-id');
+			const dataWeek = JSON.parse(container.getAttribute('data-week'));
+			const dataMonth = JSON.parse(container.getAttribute('data-month'));
+			const textWeek = container.getAttribute('data-text-week');
+			const textMonth = container.getAttribute('data-text-month');
+			
+			const canvas = container.querySelector('canvas');
+			const startLabel = container.querySelector('.period-start-label');
+			if (!canvas) return;
+			
+			const ctx = canvas.getContext('2d');
+			const isDarkMode = document.documentElement.classList.contains('dark');
+			const color = isDarkMode ? '#FFFFFF' : '#002855';
+			const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 40, 85, 0.1)';
+
+			let currentData = dataWeek;
+
+			const config = {
+				type: 'line',
+				data: {
+					labels: currentData.map((_, i) => i),
+					datasets: [{
+						data: currentData,
+						borderColor: color,
+						borderWidth: 4,
+						tension: 0.4,
+						pointRadius: 0,
+						fill: false,
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					plugins: {
+						legend: { display: false },
+						tooltip: { enabled: true }
+					},
+					scales: {
+						x: { 
+							display: false // Hide Chart.js X-axis, we use HTML overlay
+						},
+						y: {
+							border: { display: false },
+							ticks: { 
+								color: color, 
+								stepSize: 2,
+								font: { size: 10 }
+							},
+							grid: { color: gridColor }
+						}
+					},
+					layout: {
+						padding: { left: 0, right: 0, top: 10, bottom: 0 }
+					},
+					animation: {
+						duration: 1000,
+						easing: 'easeInOutQuart'
+					}
+				}
+			};
+
+			const chart = new Chart(ctx, config);
+
+			// Handle switching between week/month
+			const buttons = container.querySelectorAll('.time-toggle');
+			buttons.forEach(btn => {
+				btn.addEventListener('click', () => {
+					const time = btn.getAttribute('data-time');
+					const newData = time === 'week' ? dataWeek : dataMonth;
+					const labelText = time === 'week' ? textWeek : textMonth;
+					
+					// Update HTML label
+					if (startLabel) {
+						startLabel.textContent = `-1 ${labelText}`;
+					}
+					
+					// Update UI state
+					buttons.forEach(b => b.classList.add('opacity-50'));
+					btn.classList.remove('opacity-50');
+					
+					// Update Chart
+					chart.data.labels = newData.map((_, i) => i);
+					chart.data.datasets[0].data = newData;
+					chart.update();
+				});
+			});
+		});
+	};
+
+	initCharts();
+	document.addEventListener('astro:after-swap', initCharts);
+</script>

@@ -1,27 +1,17 @@
-const colors = require("tailwindcss/colors")
-module.exports = {
-  content: ['./src/**/*.{vue,js}', './node_modules/paw/**/*.vue'],
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+  ],
   darkMode: 'class',
   theme: {
     extend: {
-      strokeWidth: {
-        '3': '3',
-        '4': '4'
-      }
+      colors: {
+        darkblue: "#002855",
+      },
     },
-    colors: {
-      darkblue: '#213A4E',
-      white: '#FFFFFF',
-      gray: colors.gray
-    },
-    fontFamily: {
-      sans: ['Roboto']
-    }
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
-    require('@tailwindcss/typography')
-  ]
+    require('@tailwindcss/typography'),
+  ],
 }
