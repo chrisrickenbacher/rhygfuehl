@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
 	t: any;
 	lang: string;
@@ -11,7 +13,7 @@ const imprintLink = lang === 'de' ? '/impressum' : '/en/imprint';
 <footer class="max-w-screen-md mx-auto px-5 pb-8 pt-4">
 	<div class="flex flex-col items-center gap-4">
 		<a href="https://www.buymeacoffee.com/rhygfuehl" target="_blank" class="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity">
-			<span class="material-icons text-base mr-2">local_cafe</span>
+			<Icon name="local_cafe" class="w-5 h-5 mr-2" />
 			{t.coffee}
 		</a>
 		

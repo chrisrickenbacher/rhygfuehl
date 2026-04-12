@@ -1,0 +1,26 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components';
+
+interface Props {
+	name: 'refresh' | 'expand_more' | 'arrow_back' | 'mail' | 'open_in_new' | 'local_cafe';
+	class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+// Map our internal names to official Material Symbols Rounded names
+const iconMap = {
+	refresh: 'material-symbols:refresh-rounded',
+	expand_more: 'material-symbols:expand-more-rounded',
+	arrow_back: 'material-symbols:arrow-back-rounded',
+	mail: 'material-symbols:mail-rounded',
+	open_in_new: 'material-symbols:open-in-new-rounded',
+	local_cafe: 'material-symbols:local-cafe-rounded'
+};
+---
+
+<AstroIcon 
+	name={iconMap[name]} 
+	class={className}
+	aria-hidden="true"
+/>

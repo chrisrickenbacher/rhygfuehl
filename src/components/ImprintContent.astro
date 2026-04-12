@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
 	t: any;
 	lang: string;
@@ -57,11 +59,11 @@ const backLink = lang === 'de' ? '/' : '/en/';
 			<h2 class="text-xs uppercase tracking-wider opacity-50 font-bold mb-4">{t.contact}</h2>
 			<div class="flex flex-col gap-4">
 				<a href="mailto:rhygfuehl@cric.dev" class="text-sm underline inline-flex items-center hover:opacity-70 transition-opacity">
-					<span class="material-icons text-base mr-2">mail</span>
+					<Icon name="mail" class="w-5 h-5 mr-2" />
 					rhygfuehl@cric.dev
 				</a>
 				<a href="https://github.com/chrisrickenbacher/rhygfuehl" target="_blank" class="text-sm underline inline-flex items-center hover:opacity-70 transition-opacity">
-					<span class="material-icons text-base mr-2">open_in_new</span>
+					<Icon name="open_in_new" class="w-5 h-5 mr-2" />
 					{t.github}
 				</a>
 			</div>
@@ -70,7 +72,7 @@ const backLink = lang === 'de' ? '/' : '/en/';
 	
 	<div class="mt-12">
 		<a href={backLink} class="inline-flex items-center text-sm font-bold hover:opacity-70 transition-opacity">
-			<span class="material-icons text-base mr-1">arrow_back</span>
+			<Icon name="arrow_back" class="w-5 h-5 mr-1" />
 			{t.back}
 		</a>
 	</div>

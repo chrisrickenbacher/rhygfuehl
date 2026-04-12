@@ -1,5 +1,6 @@
 ---
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import de from '../locales/de.json';
 import en from '../locales/en.json';
 
@@ -17,14 +18,20 @@ const t = lang === 'de' ? de : en;
 <html lang={lang} class="dark">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/img/icons/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		
+		<!-- PWA Meta Tags -->
+		<meta name="theme-color" content="#002855" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-title" content="rhygfuehl" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 	</head>
-	<body class="min-h-screen bg-white dark:bg-darkblue text-darkblue dark:text-white transition-colors duration-300">
+	<body class="min-h-screen bg-white dark:bg-darkblue text-darkblue dark:text-white transition-colors duration-300 antialiased">
 		<header class="max-w-screen-md mx-auto px-5 pt-8 flex items-center justify-between">
 			<h1 class="text-2xl font-bold">
 				<a href={lang === 'de' ? '/' : '/en/'}>rhygfuehl</a>
@@ -50,7 +57,34 @@ const t = lang === 'de' ? de : en;
 			<slot />
 		</main>
 		<Footer t={t} lang={lang} />
+
+		<!-- PWA Update Prompt -->
+		<div id="pwa-toast" class="fixed bottom-0 right-0 m-6 p-4 rounded-2xl bg-white dark:bg-darkblue border border-darkblue/10 dark:border-white/10 shadow-2xl translate-y-[200%] transition-transform duration-500 z-50 flex flex-col gap-3 min-w-[280px]" role="alert">
+			<div class="flex items-center gap-3">
+				<Icon name="refresh" class="w-5 h-5 text-blue-500" />
+				<span class="text-sm font-bold">{lang === 'de' ? 'Neue Daten verfügbar' : 'New data available'}</span>
+			</div>
+			<div class="flex gap-2">
+				<button id="pwa-refresh" class="flex-1 bg-darkblue dark:bg-white text-white dark:text-darkblue px-4 py-2 rounded-xl text-xs font-bold hover:opacity-90 transition-opacity">
+					{lang === 'de' ? 'Aktualisieren' : 'Refresh'}
+				</button>
+				<button id="pwa-close" class="px-4 py-2 border border-darkblue/10 dark:border-white/10 rounded-xl text-xs font-bold opacity-50 hover:opacity-100 transition-opacity">
+					{lang === 'de' ? 'Schliessen' : 'Close'}
+				</button>
+			</div>
+		</div>
+
 		<style is:global>
+			@font-face {
+				font-family: 'TikTok Sans';
+				src: url('/fonts/tiktok-sans.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+				font-display: swap;
+			}
+			body {
+				font-family: 'TikTok Sans', sans-serif;
+			}
 			.collapse-grid {
 				display: grid;
 				grid-template-rows: 0fr;
@@ -63,6 +97,34 @@ const t = lang === 'de' ? de : en;
 				overflow: hidden;
 			}
 		</style>
+		
+		<script>
+			import { Workbox } from 'workbox-window';
+
+			const toast = document.getElementById('pwa-toast');
+			const refreshBtn = document.getElementById('pwa-refresh');
+			const closeBtn = document.getElementById('pwa-close');
+
+			if ('serviceWorker' in navigator) {
+				const wb = new Workbox('/sw.js');
+
+				wb.addEventListener('waiting', () => {
+					toast?.classList.remove('translate-y-[200%]');
+				});
+
+				refreshBtn?.addEventListener('click', () => {
+					wb.addEventListener('controlling', () => {
+						window.location.reload();
+					});
+					wb.messageSkipWaiting();
+				});
+
+				closeBtn?.addEventListener('click', () => toast?.classList.add('translate-y-[200%]'));
+
+				wb.register();
+			}
+		</script>
+
 		<script is:inline>
 			document.addEventListener('DOMContentLoaded', () => {
 				const toggles = document.querySelectorAll('.metric-toggle');
@@ -74,10 +136,10 @@ const t = lang === 'de' ? de : en;
 						
 						if (isOpen) {
 							content.classList.remove('is-open');
-							icon.textContent = 'unfold_more';
+							icon.classList.remove('rotate-180');
 						} else {
 							content.classList.add('is-open');
-							icon.textContent = 'unfold_less';
+							icon.classList.add('rotate-180');
 						}
 					});
 				});
