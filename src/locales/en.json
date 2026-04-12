@@ -18,6 +18,8 @@
     "faqA1": "The Rhine in Basel currently has a water temperature of %waterTemp% °C.",
     "faqQ2": "What is the air temperature on the Rhine in Basel?",
     "faqA2": "The air temperature at the Rhine in Basel is currently %airTemp% °C.",
+    "faqQ3": "Is it currently safe to swim in the Rhine in Basel?",
+    "faqA3": "The current swimming prognosis for the Rhine in Basel is %prognosis%. This estimate is based on precipitation, UV radiation, and water temperature.",
     "sources": "Data Sources",
     "sourceWeil": "Rhine monitoring station Weil am Rhein",
     "sourcePromenade": "Measuring station Rheinpromenade 2 Basel",

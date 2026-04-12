@@ -27,6 +27,14 @@ const formatDate = (dateStr: string) => {
 	});
 };
 
+const getPrognosisLabel = (q: number, t: any) => {
+	if (q === 3) return t.prognosisExcellent;
+	if (q === 2) return t.prognosisGood;
+	return t.prognosisDiscouraged;
+};
+
+const prognosisLabel = getPrognosisLabel(qualityData.quality, de);
+
 const faqSchema = {
 	"@context": "https://schema.org",
 	"@type": "FAQPage",
@@ -45,6 +53,14 @@ const faqSchema = {
 			"acceptedAnswer": {
 				"@type": "Answer",
 				"text": de.faqA2.replace('%airTemp%', airTemp)
+			}
+		},
+		{
+			"@type": "Question",
+			"name": de.faqQ3,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": de.faqA3.replace('%prognosis%', prognosisLabel)
 			}
 		}
 	]

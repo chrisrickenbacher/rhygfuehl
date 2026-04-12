@@ -18,6 +18,8 @@
     "faqA1": "Der Rhein in Basel hat aktuell eine Wassertemperatur von %waterTemp% °C.",
     "faqQ2": "Wie hoch ist die Lufttemperatur am Rhein in Basel?",
     "faqA2": "Die Lufttemperatur am Rhein in Basel ist aktuell %airTemp% °C.",
+    "faqQ3": "Kann man aktuell im Rhein in Basel schwimmen?",
+    "faqA3": "Die aktuelle Schwimm-Prognose für den Rhein in Basel ist %prognosis%. Diese Schätzung basiert auf Niederschlag, UV-Strahlung und Wassertemperatur.",
     "sources": "Datenquellen",
     "sourceWeil": "Rheinüberwachungsstation Weil am Rhein",
     "sourcePromenade": "Mess-Station Rheinpromenade 2 Basel",
