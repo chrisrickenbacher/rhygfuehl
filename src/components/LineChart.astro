@@ -5,10 +5,19 @@ interface Props {
 	dataMonth: number[];
 	textWeek?: string;
 	textMonth?: string;
+	textToday?: string;
 	lastUpdate?: string;
 }
 
-const { id, dataWeek, dataMonth, textWeek = "Week", textMonth = "Month", lastUpdate } = Astro.props;
+const { 
+	id, 
+	dataWeek, 
+	dataMonth, 
+	textWeek = "Week", 
+	textMonth = "Month", 
+	textToday = "Today",
+	lastUpdate 
+} = Astro.props;
 ---
 
 <div 
@@ -18,17 +27,20 @@ const { id, dataWeek, dataMonth, textWeek = "Week", textMonth = "Month", lastUpd
 	data-month={JSON.stringify(dataMonth)}
 	data-text-week={textWeek}
 	data-text-month={textMonth}
+	data-text-today={textToday}
 >
 	<div class="flex justify-between items-center mb-4">
 		<div class="flex gap-2">
 			<button
-				class="time-toggle px-3 py-1 text-xs rounded-full bg-gray-200 dark:bg-white/10 hover:opacity-80 transition-all"
+				type="button"
+				class="time-toggle px-3 py-1 text-xs rounded-full bg-darkblue/10 dark:bg-white/10 hover:opacity-80 transition-all font-bold z-10"
 				data-time="week"
 			>
 				{textWeek}
 			</button>
 			<button
-				class="time-toggle px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-white/5 opacity-50 hover:opacity-100 transition-all"
+				type="button"
+				class="time-toggle px-3 py-1 text-xs rounded-full bg-darkblue/5 dark:bg-white/5 opacity-50 hover:opacity-100 transition-all font-bold z-10"
 				data-time="month"
 			>
 				{textMonth}
@@ -37,13 +49,13 @@ const { id, dataWeek, dataMonth, textWeek = "Week", textMonth = "Month", lastUpd
 		{lastUpdate && <span class="text-xs opacity-60">{lastUpdate}</span>}
 	</div>
 	
-	<div class="relative h-[180px] w-full">
-		<canvas id={id}></canvas>
+	<div class="relative h-[180px] w-full chart-wrapper">
+		<canvas id={`canvas-${id}`}></canvas>
 		
 		<!-- Custom HTML X-Axis Labels -->
 		<div class="absolute bottom-[-25px] left-0 right-0 flex justify-between px-2 text-[10px] font-bold opacity-40 pointer-events-none">
 			<span class="period-start-label">-1 {textWeek}</span>
-			<span>→</span>
+			<span class="today-label">{textToday}</span>
 		</div>
 	</div>
 </div>
@@ -51,99 +63,148 @@ const { id, dataWeek, dataMonth, textWeek = "Week", textMonth = "Month", lastUpd
 <script>
 	import Chart from 'chart.js/auto';
 
-	const initCharts = () => {
+	// Global instances map
+	if (!(window as any).chartInstances) {
+		(window as any).chartInstances = new Map();
+	}
+	const instances = (window as any).chartInstances;
+
+	const getThemeColors = () => {
+		const isDark = document.documentElement.classList.contains('dark');
+		return {
+			line: isDark ? '#FFFFFF' : '#002855',
+			grid: isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 40, 85, 0.15)'
+		};
+	};
+
+	const setupCharts = () => {
 		const containers = document.querySelectorAll('.line-chart-container');
+		const colors = getThemeColors();
 		
 		containers.forEach(container => {
 			const id = container.getAttribute('data-id');
-			const dataWeek = JSON.parse(container.getAttribute('data-week'));
-			const dataMonth = JSON.parse(container.getAttribute('data-month'));
+			if (!id) return;
+
+			// If chart already exists for this ID, don't re-init
+			if (instances.has(id)) return;
+
+			const dataWeek = JSON.parse(container.getAttribute('data-week') || '[]');
+			const dataMonth = JSON.parse(container.getAttribute('data-month') || '[]');
 			const textWeek = container.getAttribute('data-text-week');
 			const textMonth = container.getAttribute('data-text-month');
 			
-			const canvas = container.querySelector('canvas');
-			const startLabel = container.querySelector('.period-start-label');
+			const canvas = container.querySelector('canvas') as HTMLCanvasElement;
 			if (!canvas) return;
-			
-			const ctx = canvas.getContext('2d');
-			const isDarkMode = document.documentElement.classList.contains('dark');
-			const color = isDarkMode ? '#FFFFFF' : '#002855';
-			const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 40, 85, 0.1)';
 
-			let currentData = dataWeek;
-
-			const config = {
+			const chart = new Chart(canvas, {
 				type: 'line',
 				data: {
-					labels: currentData.map((_, i) => i),
+					labels: dataWeek.map((_: any, i: number) => i),
 					datasets: [{
-						data: currentData,
-						borderColor: color,
-						borderWidth: 4,
-						tension: 0.4,
+						data: dataWeek,
+						borderColor: colors.line,
+						backgroundColor: colors.line,
+						borderWidth: 4, // Thicker line
+						tension: 0.3,
 						pointRadius: 0,
+						pointHoverRadius: 0,
+						pointHitRadius: 0,
 						fill: false,
+						spanGaps: true
 					}]
 				},
 				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					plugins: {
-						legend: { display: false },
-						tooltip: { enabled: true }
-					},
-					scales: {
-						x: { 
-							display: false // Hide Chart.js X-axis, we use HTML overlay
-						},
-						y: {
-							border: { display: false },
-							ticks: { 
-								color: color, 
-								stepSize: 2,
-								font: { size: 10 }
-							},
-							grid: { color: gridColor }
+					elements: {
+						point: {
+							radius: 0,
+							hoverRadius: 0
 						}
 					},
-					layout: {
-						padding: { left: 0, right: 0, top: 10, bottom: 0 }
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: { duration: 300 },
+					plugins: {
+						legend: { display: false },
+						tooltip: {
+							enabled: false
+						}
 					},
-					animation: {
-						duration: 1000,
-						easing: 'easeInOutQuart'
+					scales: {
+						x: { display: false },
+						y: {
+							beginAtZero: false,
+							border: { display: false },
+							ticks: { 
+								color: colors.line,
+								font: { size: 10, weight: 'bold' },
+								maxTicksLimit: 5
+							},
+							grid: { color: colors.grid }
+						}
 					}
 				}
-			};
+			});
 
-			const chart = new Chart(ctx, config);
+			instances.set(id, chart);
 
-			// Handle switching between week/month
-			const buttons = container.querySelectorAll('.time-toggle');
-			buttons.forEach(btn => {
-				btn.addEventListener('click', () => {
+			// Range Toggles
+			container.querySelectorAll('.time-toggle').forEach(btn => {
+				btn.addEventListener('click', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					
 					const time = btn.getAttribute('data-time');
 					const newData = time === 'week' ? dataWeek : dataMonth;
 					const labelText = time === 'week' ? textWeek : textMonth;
 					
-					// Update HTML label
-					if (startLabel) {
-						startLabel.textContent = `-1 ${labelText}`;
-					}
+					const startLabel = container.querySelector('.period-start-label');
+					if (startLabel) startLabel.textContent = `-1 ${labelText}`;
 					
-					// Update UI state
-					buttons.forEach(b => b.classList.add('opacity-50'));
+					container.querySelectorAll('.time-toggle').forEach(b => b.classList.add('opacity-50'));
 					btn.classList.remove('opacity-50');
 					
-					// Update Chart
-					chart.data.labels = newData.map((_, i) => i);
+					chart.data.labels = newData.map((_: any, i: number) => i);
 					chart.data.datasets[0].data = newData;
 					chart.update();
 				});
 			});
+
+			// Resize handling for initial hidden state
+			const wrapper = container.querySelector('.chart-wrapper');
+			if (wrapper) {
+				const ro = new ResizeObserver(() => {
+					if (wrapper.clientHeight > 0 && chart) {
+						chart.resize();
+					}
+				});
+				ro.observe(wrapper);
+			}
 		});
 	};
 
-	initCharts();
-	document.addEventListener('astro:after-swap', initCharts);
+	// Initialize on all relevant events
+	if (document.readyState === 'complete') {
+		setupCharts();
+	} else {
+		window.addEventListener('load', setupCharts);
+	}
+	document.addEventListener('astro:after-swap', setupCharts);
+
+	// Single global theme observer
+	if (!(window as any).themeObserverSet) {
+		(window as any).themeObserverSet = true;
+		const observer = new MutationObserver(() => {
+			const colors = getThemeColors();
+			instances.forEach((chart: any) => {
+				if (chart) {
+					chart.options.scales.y.ticks.color = colors.line;
+					chart.options.scales.y.grid.color = colors.grid;
+					chart.data.datasets[0].borderColor = colors.line;
+					chart.data.datasets[0].backgroundColor = colors.line;
+					chart.update('none'); // no animation for theme switch
+				}
+			});
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
 </script>

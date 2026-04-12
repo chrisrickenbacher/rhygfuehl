@@ -13,6 +13,7 @@ interface Props {
 	dataMonth: number[];
 	textWeek: string;
 	textMonth: string;
+	textToday: string;
 }
 
 const { 
@@ -25,7 +26,8 @@ const {
 	dataWeek, 
 	dataMonth, 
 	textWeek, 
-	textMonth 
+	textMonth,
+	textToday
 } = Astro.props;
 ---
 
@@ -50,6 +52,7 @@ const {
 					dataMonth={dataMonth} 
 					textWeek={textWeek}
 					textMonth={textMonth}
+					textToday={textToday}
 					lastUpdate={lastUpdate}
 				/>
 				<div class="text-sm opacity-70">

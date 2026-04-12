@@ -39,13 +39,13 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     if  e['record']['fields']['temp'] is not None:
         waterData['chart']['week'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
     else:
-        waterData['chart']['week'].append(oldT | 0)
+        waterData['chart']['week'].append(oldT)
 
 # Monthly data
 waterData['chart']['month'] = []
@@ -56,13 +56,13 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     if e['record']['fields']['temp'] is not None:
         waterData['chart']['month'].append(e['record']['fields']['temp'])
         oldT = e['record']['fields']['temp']
     else:
-        waterData['chart']['month'].append(oldT | 0)
+        waterData['chart']['month'].append(oldT)
 
 updateJsonFile( 'data/data/waterData.json', waterData)
 
@@ -78,17 +78,15 @@ except requests.exceptions.RequestException as e:
 
 try:
     d['records'][0]['record']['fields']['temp']
-except NameError:
+except (KeyError, IndexError):
     print('air temp not defined')
     try: 
-        d['records'][1]['record']['fields']['rus_w_o_s3_te']
-    except NameError:
+        airData['actualValue'] = d['records'][1]['record']['fields']['temp']
+        airData['lastUpdate'] = d['records'][1]['record']['fields']['date']
+    except (KeyError, IndexError):
         print('last air temp not defined')
         airData['actualValue'] = 0
         airData['lastUpdate'] = None
-    else:
-        airData['actualValue'] = d['records'][1]['record']['fields']['temp']
-        airData['lastUpdate'] = d['records'][1]['record']['fields']['date']
 else:
     airData['actualValue'] = d['records'][0]['record']['fields']['temp']
     airData['lastUpdate'] = d['records'][0]['record']['fields']['date']
@@ -103,15 +101,17 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     try:
-        e['record']['fields']['temp']
-    except NameError:
-        airData['chart']['week'].append(oldT | 0)
-    else:
-        airData['chart']['week'].append(e['record']['fields']['temp'])
-        oldT = e['record']['fields']['temp']
+        val = e['record']['fields']['temp']
+        if val is not None:
+            airData['chart']['week'].append(val)
+            oldT = val
+        else:
+            airData['chart']['week'].append(oldT)
+    except KeyError:
+        airData['chart']['week'].append(oldT)
 
 # Monthly data
 airData['chart']['month'] = []
@@ -122,15 +122,17 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     try:
-        e['record']['fields']['temp']
-    except NameError:
-        airData['chart']['month'].append(oldT | 0)
-    else:
-        airData['chart']['month'].append(e['record']['fields']['temp'])
-        oldT = e['record']['fields']['temp']
+        val = e['record']['fields']['temp']
+        if val is not None:
+            airData['chart']['month'].append(val)
+            oldT = val
+        else:
+            airData['chart']['month'].append(oldT)
+    except KeyError:
+        airData['chart']['month'].append(oldT)
 
 updateJsonFile( 'data/data/airData.json', airData)
 
@@ -151,14 +153,12 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 try:
-    d['records'][0]['record']['fields']['pegel']
-except NameError:
+    levelData['actualValue'] = d['records'][0]['record']['fields']['pegel'] - lastAvg
+    levelData['lastUpdate'] = d['records'][0]['record']['timestamp']
+except (KeyError, IndexError):
     print('level not defined')
     levelData['actualValue'] = 0
     levelData['lastUpdate'] = None
-else:
-    levelData['actualValue'] = d['records'][0]['record']['fields']['pegel'] - lastAvg
-    levelData['lastUpdate'] = d['records'][0]['record']['timestamp']
 
 # Weekly data
 levelData['chart'] = {}
@@ -170,15 +170,17 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     try:
-        e['record']['fields']['pegel']
-    except NameError:
-        levelData['chart']['week'].append(oldT | 0)
-    else:
-        levelData['chart']['week'].append(e['record']['fields']['pegel'])
-        oldT = e['record']['fields']['pegel']
+        val = e['record']['fields']['pegel']
+        if val is not None:
+            levelData['chart']['week'].append(val)
+            oldT = val
+        else:
+            levelData['chart']['week'].append(oldT)
+    except KeyError:
+        levelData['chart']['week'].append(oldT)
 
 # Monthly data
 levelData['chart']['month'] = []
@@ -189,30 +191,27 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldT = ''
+oldT = 0
 for e in d['records']:
     try:
-        e['record']['fields']['pegel']
-    except NameError:
-        levelData['chart']['month'].append(oldT | 0)
-    else:
-        levelData['chart']['month'].append(e['record']['fields']['pegel'])
-        oldT = e['record']['fields']['pegel']
+        val = e['record']['fields']['pegel']
+        if val is not None:
+            levelData['chart']['month'].append(val)
+            oldT = val
+        else:
+            levelData['chart']['month'].append(oldT)
+    except KeyError:
+        levelData['chart']['month'].append(oldT)
 
 updateJsonFile( 'data/data/levelData.json', levelData)
 
 
 # Quality data
 qualityData = {}
-
 qualityData['quality'] = 2
 
 # Global radiation
-# Weekly data
-globalRadiationData = {}
-globalRadiationData['measure'] = 'globalRadiation'
-globalRadiationData['chart'] = {}
-globalRadiationData['chart']['week'] = []
+globalRadiationData = {'measure': 'globalRadiation', 'chart': {'week': [], 'month': []}}
 url = 'https://data.bs.ch/api/v2/catalog/datasets/100254/records?select=gre000d0%20as%20globalRadiation&limit=7&pretty=false&timezone=UTC&order_by=date%20DESC'
 try: 
     resp = requests.get(url=url)
@@ -220,23 +219,21 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldD = ''
+oldD = 0
 for e in d['records']:
     try:
-        e['record']['fields']['globalRadiation']
-    except NameError:
-        globalRadiationData['chart']['week'].append(oldD | 0)
-    else:
-        globalRadiationData['chart']['week'].append(e['record']['fields']['globalRadiation'])
-        oldD = e['record']['fields']['globalRadiation']
+        val = e['record']['fields']['globalRadiation']
+        if val is not None:
+            globalRadiationData['chart']['week'].append(val)
+            oldD = val
+        else:
+            globalRadiationData['chart']['week'].append(oldD)
+    except KeyError:
+        globalRadiationData['chart']['week'].append(oldD)
 
 qualityData['lastUpdate'] = d['records'][0]['record']['timestamp']
 
-globalRadiationLast72h = globalRadiationData['chart']['week'][0] + globalRadiationData['chart']['week'][1] + globalRadiationData['chart']['week'][2]
-globalRadiationLast48h = globalRadiationData['chart']['week'][0] + globalRadiationData['chart']['week'][1]
-
-# Monthly data
-globalRadiationData['chart']['month'] = []
+# Monthly radiation
 url = 'https://data.bs.ch/api/v2/catalog/datasets/100254/records?select=avg(gre000d0)%20as%20globalRadiation&order_by=date%20DESC&group_by=range(date,2days)%20as%20date&limit=15&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
@@ -244,26 +241,20 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldD = ''
+oldD = 0
 for e in d['records']:
     try:
-        e['record']['fields']['globalRadiation']
-    except NameError:
-        globalRadiationData['chart']['month'].append(oldD | 0)
-    else:
-        globalRadiationData['chart']['month'].append(e['record']['fields']['globalRadiation'])
-        oldD = e['record']['fields']['globalRadiation']
+        val = e['record']['fields']['globalRadiation']
+        if val is not None:
+            globalRadiationData['chart']['month'].append(val)
+            oldD = val
+        else:
+            globalRadiationData['chart']['month'].append(oldD)
+    except KeyError:
+        globalRadiationData['chart']['month'].append(oldD)
 
-qualityData['data'] = []
-qualityData['data'].append(globalRadiationData)
-
-
-# Rain
-# Weekly data
-rainData = {}
-rainData['measure'] = 'rain'
-rainData['chart'] = {}
-rainData['chart']['week'] = []
+# Rain data
+rainData = {'measure': 'rain', 'chart': {'week': [], 'month': []}}
 url = "https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=max(meta_rain24h_sum)%20as%20rain&where=name_original=\"034001AF\"&limit=7&pretty=false&timezone=UTC&order_by=date%20DESC&group_by=date_format(dates_max_date, 'yyyyMMdd') as date"
 try: 
     resp = requests.get(url=url)
@@ -271,29 +262,19 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldD = ''
+oldD = 0
 for e in d['records']:
     try:
-        e['record']['fields']['rain']
-    except NameError:
-        rainData['chart']['week'].append(oldD | 0)
-    else:
-        rainData['chart']['week'].append(e['record']['fields']['rain'])
-        oldD = e['record']['fields']['rain']
+        val = e['record']['fields']['rain']
+        if val is not None:
+            rainData['chart']['week'].append(val)
+            oldD = val
+        else:
+            rainData['chart']['week'].append(oldD)
+    except KeyError:
+        rainData['chart']['week'].append(oldD)
 
-maxRainLast72h = rainData['chart']['week'][0]
-maxRainLast48h = maxRainLast72h
-if rainData['chart']['week'][1] > maxRainLast72h:
-    maxRainLast72h = rainData['chart']['week'][1]
-if rainData['chart']['week'][2] > maxRainLast72h:
-    maxRainLast72h = rainData['chart']['week'][2]
-if rainData['chart']['week'][1] > maxRainLast48h:
-    maxRainLast48h = rainData['chart']['week'][1]
-if rainData['chart']['week'][2] > maxRainLast48h:
-    maxRainLast48h = rainData['chart']['week'][2]
-
-# Monthly data
-rainData['chart']['month'] = []
+# Monthly rain
 url = 'https://data.bs.ch/api/v2/catalog/datasets/100009/records?select=avg(meta_rain24h_sum)%20as%20rain&where=name_original=\"034001AF\"&limit=15&pretty=false&timezone=UTC&order_by=date%20DESC&group_by=range(dates_max_date,2days) as date'
 try: 
     resp = requests.get(url=url)
@@ -301,35 +282,60 @@ try:
 except requests.exceptions.RequestException as e:
     raise SystemExit(e)
 
-oldD = ''
+oldD = 0
 for e in d['records']:
     try:
-        e['record']['fields']['rain']
-    except NameError:
-        rainData['chart']['month'].append(oldD | 0)
-    else:
-        rainData['chart']['month'].append(e['record']['fields']['rain'])
-        oldD = e['record']['fields']['rain']
+        val = e['record']['fields']['rain']
+        if val is not None:
+            rainData['chart']['month'].append(val)
+            oldD = val
+        else:
+            rainData['chart']['month'].append(oldD)
+    except KeyError:
+        rainData['chart']['month'].append(oldD)
 
-qualityData['data'].append(rainData)
-
-# Quality value
-dailyRainTreshold = 2
+# Quality calculation (using Newest at index 0)
 dailyRadiationTreshold = 170
+r0 = rainData['chart']['week'][0] if len(rainData['chart']['week']) > 0 else 0
+r1 = rainData['chart']['week'][1] if len(rainData['chart']['week']) > 1 else 0
+r2 = rainData['chart']['week'][2] if len(rainData['chart']['week']) > 2 else 0
+rainImpact = (r0 * 1.0) + (r1 * 0.5) + (r2 * 0.25)
 
-print(f'dailyRainTreshold: {dailyRainTreshold}')
-print(f'dailyRadiationTreshold: {dailyRadiationTreshold}')
-print(f'maxRainLast72h: {maxRainLast72h}')
-print(f'maxRainLast48h: {maxRainLast48h}')
-print(f'globalRadiationLast72h: {globalRadiationLast72h}')
-print(f'globalRadiationLast48h: {globalRadiationLast48h}')
+uv0 = globalRadiationData['chart']['week'][0] if len(globalRadiationData['chart']['week']) > 0 else 0
+uv1 = globalRadiationData['chart']['week'][1] if len(globalRadiationData['chart']['week']) > 1 else 0
+uv2 = globalRadiationData['chart']['week'][2] if len(globalRadiationData['chart']['week']) > 2 else 0
+uvBonus = (uv0 + uv1 + uv2) / (3 * dailyRadiationTreshold)
 
-if maxRainLast72h < dailyRainTreshold and globalRadiationLast72h > ( dailyRadiationTreshold * 3 ):
-    qualityData['quality'] = 3
-elif maxRainLast48h < dailyRainTreshold and globalRadiationLast48h > ( dailyRadiationTreshold * 2 ):
-    qualityData['quality'] = 2
-else:
-    qualityData['quality'] = 1
+# Base quality based on rain/UV
+level = 1
+if rainImpact < 0.5 or (r0 < 1.0 and rainImpact < 2.0 and uvBonus > 1.2):
+    level = 3
+elif rainImpact < 3.5 or (r0 < 2.0 and rainImpact < 5.0 and uvBonus > 1.0):
+    level = 2
 
+# Temperature-based safety caps
+# < 14°C: Discouraged (Cold shock) - based on LATEST temp
+# 14-18°C: Max "Good" (Fresh) - based on LATEST temp
+# > 22°C (48h Avg): Max "Good" (Bacterial growth) - based on SUSTAINED heat
+waterTempLatest = waterData.get('actualValue', 0)
+
+# Calculate 48h average from the last 4 data points (each is a 12h average)
+# Chart week currently has newest data at index 0
+recentTemps = waterData['chart']['week'][:4]
+waterTemp48hAvg = sum(recentTemps) / len(recentTemps) if recentTemps else waterTempLatest
+
+if waterTempLatest < 14.0:
+    level = 1
+elif (waterTempLatest < 18.0 or waterTemp48hAvg > 22.0) and level > 2:
+    level = 2
+
+qualityData['quality'] = level
+
+# REVERSE chart data for 'Old -> New' display
+globalRadiationData['chart']['week'].reverse()
+globalRadiationData['chart']['month'].reverse()
+rainData['chart']['week'].reverse()
+rainData['chart']['month'].reverse()
+
+qualityData['data'] = [globalRadiationData, rainData]
 updateJsonFile( 'data/data/qualityData.json', qualityData)
-

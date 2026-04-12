@@ -5,6 +5,7 @@
     "waterLevel": "Water level",
     "week": "Week",
     "month": "Month",
+    "today": "Today",
     "waterTempDesc": "Current water temperature",
     "airTempDesc": "Current temperature along the Rhine promenade",
     "waterLevelDesc": "Level in m.a.s.l. or deviation from the last annual average",
@@ -23,8 +24,16 @@
     "sourceKleinbasel": "Measuring station Kleinbasel (Birs confluence)",
     "sourceCatalog": "Basel-Stadt Catalog",
     "github": "Project on GitHub",
+    "swimPrognosis": "Swimming Prognosis",
+    "prognosisExcellent": "Excellent",
+    "prognosisGood": "Good",
+    "prognosisDiscouraged": "Discouraged",
+    "prognosisDisclaimer": "Automated estimate based on weather data. No official laboratory measurements. Swim at your own risk.",
+    "prognosisDescription": "This prognosis estimates swimming advisability based on precipitation, UV radiation, and water temperature (safety & hygiene) over the last 72 hours.",
+    "prognosisDetails": "Calculation details on GitHub",
     "seo": {
         "title": "rhygfuehl - current Rhine temperature in Basel",
         "description": "☀️ The air temperature at the Rhine in Basel is currently %airTemp% °C. The Rhine in Basel currently has a water temperature of %waterTemp% °C. rhygfuehl.ch shows the current Rhine temperature of Basel in a clear app."
     }
 }
+

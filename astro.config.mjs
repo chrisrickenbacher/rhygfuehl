@@ -38,6 +38,19 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico,webmanifest}'],
         navigateFallback: null,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/data\.bs\.ch\/api\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60, // 1 hour
+              },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: true,

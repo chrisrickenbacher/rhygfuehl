@@ -5,6 +5,7 @@
     "waterLevel": "Pegelstand",
     "week": "Woche",
     "month": "Monat",
+    "today": "Heute",
     "waterTempDesc": "Aktueller Wassertemperatur",
     "airTempDesc": "Aktuelle Temperatur an der Rheinpromenade",
     "waterLevelDesc": "Pegel in m.ü.M. bzw. Abweichung vom letzten Jahresschnitt",
@@ -23,6 +24,13 @@
     "sourceKleinbasel": "Mess-Station Kleinbasel (Birs-Zufluss)",
     "sourceCatalog": "Katalog Basel-Stadt",
     "github": "Projekt auf GitHub",
+    "swimPrognosis": "Schwimm-Prognose",
+    "prognosisExcellent": "Ausgezeichnet",
+    "prognosisGood": "Gut",
+    "prognosisDiscouraged": "Abgeraten",
+    "prognosisDisclaimer": "Automatisierte Schätzung basierend auf Wetterdaten. Keine offiziellen Labormessungen. Baden auf eigene Gefahr.",
+    "prognosisDescription": "Diese Prognose schätzt die Bade-Empfehlung basierend auf Niederschlag, UV-Strahlung sowie der Wassertemperatur (Sicherheit & Hygiene) der letzten 72 Stunden.",
+    "prognosisDetails": "Details zur Berechnung auf GitHub",
     "seo": {
         "title": "rhygfuehl - Aktuelle Rheintemperatur in Basel",
         "description": "☀️ Die Lufttemperatur am Rhein in Basel ist aktuell %airTemp% °C. Der Rhein hat eine Wassertemperatur von %waterTemp% °C. rhygfuehl.ch zeigt die aktuelle Rheintemperatur von Basel in einer übersichtlichen App."

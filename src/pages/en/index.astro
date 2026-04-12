@@ -1,9 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import MetricCard from '../../components/MetricCard.astro';
+import SwimPrognosis from '../../components/SwimPrognosis.astro';
 import waterData from '../../../data/data/waterData.json';
 import airData from '../../../data/data/airData.json';
 import levelData from '../../../data/data/levelData.json';
+import qualityData from '../../../data/data/qualityData.json';
 import en from '../../locales/en.json';
 
 const waterTemp = waterData.actualValue.toFixed(1);
@@ -53,6 +55,13 @@ const faqSchema = {
 	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 	<div class="space-y-4">
+		<SwimPrognosis 
+			quality={qualityData.quality}
+			lastUpdate={`${en.updateLabel}: ${formatDate(qualityData.lastUpdate)}`}
+			t={en}
+			data={qualityData.data}
+		/>
+
 		<MetricCard 
 			id="water-chart"
 			title={en.waterTemp}
@@ -64,6 +73,7 @@ const faqSchema = {
 			dataMonth={waterData.chart.month}
 			textWeek={en.week}
 			textMonth={en.month}
+			textToday={en.today}
 		/>
 
 		<MetricCard 
@@ -77,6 +87,7 @@ const faqSchema = {
 			dataMonth={airData.chart.month}
 			textWeek={en.week}
 			textMonth={en.month}
+			textToday={en.today}
 		/>
 
 		<MetricCard 
@@ -90,6 +101,7 @@ const faqSchema = {
 			dataMonth={levelData.chart.month}
 			textWeek={en.week}
 			textMonth={en.month}
+			textToday={en.today}
 		/>
 	</div>
 </Layout>

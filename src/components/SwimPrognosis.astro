@@ -1,0 +1,113 @@
+---
+import Icon from './Icon.astro';
+import LineChart from './LineChart.astro';
+
+interface Props {
+	quality: number;
+	lastUpdate: string;
+	t: any;
+	data: any[];
+}
+
+const { quality, lastUpdate, t, data } = Astro.props;
+
+const statusMap = {
+	3: {
+		label: t.prognosisExcellent,
+		color: 'text-green-600 dark:text-green-400',
+		bg: 'bg-green-500/10',
+		icon: 'check_circle'
+	},
+	2: {
+		label: t.prognosisGood,
+		color: 'text-yellow-600 dark:text-yellow-400',
+		bg: 'bg-yellow-500/10',
+		icon: 'info'
+	},
+	1: {
+		label: t.prognosisDiscouraged,
+		color: 'text-red-600 dark:text-red-400',
+		bg: 'bg-red-500/10',
+		icon: 'warning'
+	}
+};
+
+const status = statusMap[quality as keyof typeof statusMap] || statusMap[1];
+
+const radiationData = data.find(d => d.measure === 'globalRadiation');
+const rainData = data.find(d => d.measure === 'rain');
+---
+
+<section class="bg-darkblue/5 dark:bg-white/5 rounded-2xl p-6 transition-all duration-200 hover:bg-darkblue/[0.08] dark:hover:bg-white/[0.08]">
+	<div class="metric-toggle flex items-center justify-between cursor-pointer select-none h-24">
+		<div class="flex-1 min-w-0">
+			<div class="flex items-center gap-2 mb-1">
+				<h2 class="text-lg font-medium opacity-80 truncate">{t.swimPrognosis}</h2>
+				<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-darkblue/10 dark:bg-white/10 opacity-50 tracking-wider">BETA</span>
+			</div>
+			<div 
+				class={`text-3xl sm:text-4xl font-light flex items-center ${status.color}`}
+				title={status.label}
+			>
+				<Icon name={status.icon} class="w-8 h-8 mr-2 flex-shrink-0" />
+				<span class="truncate">{status.label}</span>
+			</div>
+		</div>
+		<div class="ml-4">
+			<Icon name="expand_more" class="w-10 h-10 opacity-40 transform transition-transform duration-200 toggle-icon" />
+		</div>
+	</div>
+
+	<div class="collapse-grid">
+		<div class="collapse-inner">
+			<div class="mt-4 space-y-6">
+				<p class="text-sm opacity-80 leading-relaxed">
+					{t.prognosisDescription}
+				</p>
+
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					{rainData && (
+						<div class="space-y-2">
+							<h3 class="text-xs uppercase tracking-wider opacity-50 font-bold">Niederschlag (mm)</h3>
+							<LineChart 
+								id="rain-chart"
+								dataWeek={rainData.chart.week}
+								dataMonth={rainData.chart.month}
+								textWeek={t.week}
+								textMonth={t.month}
+								textToday={t.today}
+								lastUpdate=""
+							/>
+						</div>
+					)}
+					{radiationData && (
+						<div class="space-y-2">
+							<h3 class="text-xs uppercase tracking-wider opacity-50 font-bold">Strahlung (W/m²)</h3>
+							<LineChart 
+								id="radiation-chart"
+								dataWeek={radiationData.chart.week}
+								dataMonth={radiationData.chart.month}
+								textWeek={t.week}
+								textMonth={t.month}
+								textToday={t.today}
+								lastUpdate=""
+							/>
+						</div>
+					)}
+				</div>
+
+				<div class={`p-4 rounded-xl text-xs leading-normal border ${status.bg} border-current/10 opacity-90`}>
+					<div class="font-bold mb-1 uppercase tracking-tight flex items-center">
+						<Icon name="gavel" class="w-4 h-4 mr-1" />
+						Disclaimer
+					</div>
+					{t.prognosisDisclaimer}
+				</div>
+
+				<div class="text-xs opacity-40 italic">
+					{lastUpdate}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
