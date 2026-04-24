@@ -1,4 +1,6 @@
 ---
+import LocalTime from './LocalTime.astro';
+
 interface Props {
 	id: string;
 	dataWeek: number[];
@@ -7,6 +9,7 @@ interface Props {
 	textMonth?: string;
 	textToday?: string;
 	lastUpdate?: string;
+	updateLabel?: string;
 }
 
 const { 
@@ -16,7 +19,8 @@ const {
 	textWeek = "Week", 
 	textMonth = "Month", 
 	textToday = "Today",
-	lastUpdate 
+	lastUpdate,
+	updateLabel = "Update"
 } = Astro.props;
 ---
 
@@ -46,7 +50,7 @@ const {
 				{textMonth}
 			</button>
 		</div>
-		{lastUpdate && <span class="text-xs opacity-60">{lastUpdate}</span>}
+		{lastUpdate && <LocalTime datetime={lastUpdate} label={updateLabel} />}
 	</div>
 	
 	<div class="relative h-[180px] w-full chart-wrapper">

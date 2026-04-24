@@ -1,0 +1,59 @@
+---
+interface Props {
+	datetime: string | null;
+	label: string;
+	class?: string;
+}
+
+const { datetime, label, class: className } = Astro.props;
+---
+
+<time
+	class={`local-time opacity-60 text-xs ${className || ""}`}
+	datetime={datetime}
+	data-label={label}
+>
+	{label}: --.--.--, --:--
+</time>
+
+<script>
+	function updateLocalTimes() {
+		const times = document.querySelectorAll('.local-time');
+		times.forEach(timeEl => {
+			const datetime = timeEl.getAttribute('datetime');
+			const label = timeEl.getAttribute('data-label');
+			
+			if (!datetime || datetime === 'null' || datetime === '') {
+				timeEl.textContent = '';
+				return;
+			}
+
+			try {
+				const date = new Date(datetime);
+				// Check if valid date
+				if (isNaN(date.getTime())) {
+					timeEl.textContent = '';
+					return;
+				}
+
+				const formatted = date.toLocaleString(document.documentElement.lang === 'de' ? 'de-CH' : 'en-GB', {
+					day: '2-digit',
+					month: '2-digit',
+					year: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit',
+				});
+
+				timeEl.textContent = `${label}: ${formatted}`;
+			} catch (e) {
+				console.error('Error formatting date:', e);
+			}
+		});
+	}
+
+	// Run on initial load
+	updateLocalTimes();
+
+	// Run after view transitions
+	document.addEventListener('astro:after-swap', updateLocalTimes);
+</script>

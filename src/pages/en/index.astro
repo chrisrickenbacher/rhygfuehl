@@ -16,17 +16,6 @@ const seoDescription = en.seo.description
 	.replace('%airTemp%', airTemp)
 	.replace('%waterTemp%', waterTemp);
 
-const formatDate = (dateStr: string) => {
-	const d = new Date(dateStr);
-	return d.toLocaleString('en-GB', { 
-		day: '2-digit', 
-		month: '2-digit', 
-		year: '2-digit', 
-		hour: '2-digit', 
-		minute: '2-digit' 
-	});
-};
-
 const getPrognosisLabel = (q: number, t: any) => {
 	if (q === 3) return t.prognosisExcellent;
 	if (q === 2) return t.prognosisGood;
@@ -73,7 +62,8 @@ const faqSchema = {
 	<div class="space-y-4">
 		<SwimPrognosis 
 			quality={qualityData.quality}
-			lastUpdate={`${en.updateLabel}: ${formatDate(qualityData.lastUpdate)}`}
+			lastUpdate={qualityData.lastUpdate}
+			updateLabel={en.updateLabel}
 			t={en}
 			data={qualityData.data}
 		/>
@@ -84,7 +74,8 @@ const faqSchema = {
 			value={waterTemp}
 			unit="°C"
 			description={en.waterTempDesc}
-			lastUpdate={`${en.updateLabel}: ${formatDate(waterData.lastUpdate)}`}
+			lastUpdate={waterData.lastUpdate}
+			updateLabel={en.updateLabel}
 			dataWeek={waterData.chart.week}
 			dataMonth={waterData.chart.month}
 			textWeek={en.week}
@@ -98,7 +89,8 @@ const faqSchema = {
 			value={airTemp}
 			unit="°C"
 			description={en.airTempDesc}
-			lastUpdate={`${en.updateLabel}: ${formatDate(airData.lastUpdate)}`}
+			lastUpdate={airData.lastUpdate}
+			updateLabel={en.updateLabel}
 			dataWeek={airData.chart.week}
 			dataMonth={airData.chart.month}
 			textWeek={en.week}
@@ -112,7 +104,8 @@ const faqSchema = {
 			value={`${waterLevel > 0 ? '+' : ''}${waterLevel}`}
 			unit="m"
 			description={en.waterLevelDesc}
-			lastUpdate={`${en.updateLabel}: ${formatDate(levelData.lastUpdate)}`}
+			lastUpdate={levelData.lastUpdate}
+			updateLabel={en.updateLabel}
 			dataWeek={levelData.chart.week}
 			dataMonth={levelData.chart.month}
 			textWeek={en.week}

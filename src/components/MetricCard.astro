@@ -1,6 +1,7 @@
 ---
 import LineChart from './LineChart.astro';
 import Icon from './Icon.astro';
+import LocalTime from './LocalTime.astro';
 
 interface Props {
 	id: string;
@@ -9,6 +10,7 @@ interface Props {
 	unit: string;
 	description: string;
 	lastUpdate: string;
+	updateLabel: string;
 	dataWeek: number[];
 	dataMonth: number[];
 	textWeek: string;
@@ -23,6 +25,7 @@ const {
 	unit, 
 	description, 
 	lastUpdate, 
+	updateLabel,
 	dataWeek, 
 	dataMonth, 
 	textWeek, 
@@ -54,6 +57,7 @@ const {
 					textMonth={textMonth}
 					textToday={textToday}
 					lastUpdate={lastUpdate}
+					updateLabel={updateLabel}
 				/>
 				<div class="text-sm opacity-70">
 					{description}

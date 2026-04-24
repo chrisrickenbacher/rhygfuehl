@@ -1,15 +1,17 @@
 ---
 import Icon from './Icon.astro';
 import LineChart from './LineChart.astro';
+import LocalTime from './LocalTime.astro';
 
 interface Props {
 	quality: number;
 	lastUpdate: string;
+	updateLabel: string;
 	t: any;
 	data: any[];
 }
 
-const { quality, lastUpdate, t, data } = Astro.props;
+const { quality, lastUpdate, updateLabel, t, data } = Astro.props;
 
 const statusMap = {
 	3: {
@@ -77,6 +79,7 @@ const rainData = data.find(d => d.measure === 'rain');
 								textMonth={t.month}
 								textToday={t.today}
 								lastUpdate=""
+								updateLabel=""
 							/>
 						</div>
 					)}
@@ -91,6 +94,7 @@ const rainData = data.find(d => d.measure === 'rain');
 								textMonth={t.month}
 								textToday={t.today}
 								lastUpdate=""
+								updateLabel=""
 							/>
 						</div>
 					)}
@@ -104,8 +108,8 @@ const rainData = data.find(d => d.measure === 'rain');
 					{t.prognosisDisclaimer}
 				</div>
 
-				<div class="text-xs opacity-40 italic">
-					{lastUpdate}
+				<div class="italic">
+					<LocalTime datetime={lastUpdate} label={updateLabel} />
 				</div>
 			</div>
 		</div>
