@@ -9,7 +9,7 @@ def updateJsonFile( path, data ):
 
 # Actual temperature
 waterData = {}
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?order_by=startzeitpunkt%20DESC&limit=2&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?order_by=endezeitpunkt%20DESC&limit=2&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -18,12 +18,12 @@ except requests.exceptions.RequestException as e:
 
 if d['records'][0]['record']['fields']['rus_w_o_s3_te'] is not None:
     waterData['actualValue'] = d['records'][0]['record']['fields']['rus_w_o_s3_te']
-    waterData['lastUpdate'] = d['records'][0]['record']['fields']['startzeitpunkt']
+    waterData['lastUpdate'] = d['records'][0]['record']['fields']['endezeitpunkt']
 else:
     print('newest temp is null we take next older one')
     if d['records'][1]['record']['fields']['rus_w_o_s3_te'] is not None:
         waterData['actualValue'] = d['records'][1]['record']['fields']['rus_w_o_s3_te']
-        waterData['lastUpdate'] = d['records'][1]['record']['fields']['startzeitpunkt']
+        waterData['lastUpdate'] = d['records'][1]['record']['fields']['endezeitpunkt']
     else: 
         print('no valid temp')
         waterData['actualValue'] = 0
@@ -32,7 +32,7 @@ else:
 # Weekly data
 waterData['chart'] = {}
 waterData['chart']['week'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=startzeitpunkt%3E%3Dnow(days%3D-7)&group_by=range(startzeitpunkt%2C%2012%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=endezeitpunkt%3E%3Dnow(days%3D-7)&group_by=range(endezeitpunkt%2C%2012%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()
@@ -49,7 +49,7 @@ for e in d['records']:
 
 # Monthly data
 waterData['chart']['month'] = []
-url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=startzeitpunkt%3E%3Dnow(days%3D-30)&group_by=range(startzeitpunkt,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
+url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=endezeitpunkt%3E%3Dnow(days%3D-30)&group_by=range(endezeitpunkt,2days)%20as%20time&limit=900&pretty=false&timezone=UTC'
 try: 
     resp = requests.get(url=url)
     d = resp.json()

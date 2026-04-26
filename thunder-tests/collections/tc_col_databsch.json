@@ -39,7 +39,7 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "4fa4f72a-fa52-45c7-ad49-7a884f0971b9",
             "name": "rhein 2.0 last record",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?order_by=startzeitpunkt%20DESC&limit=2&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?order_by=endezeitpunkt%20DESC&limit=2&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-11-27T09:57:06.773Z",
@@ -48,7 +48,7 @@
             "params": [
                 {
                     "name": "order_by",
-                    "value": "startzeitpunkt%20DESC"
+                    "value": "endezeitpunkt%20DESC"
                 },
                 {
                     "name": "limit",
@@ -69,7 +69,7 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "4fa4f72a-fa52-45c7-ad49-7a884f0971b9",
             "name": "rhein 2.0 week",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=startzeitpunkt%3E%3Dnow(days%3D-7)&group_by=range(startzeitpunkt%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=endezeitpunkt%3E%3Dnow(days%3D-7)&group_by=range(endezeitpunkt%2C%206%20hour)%20as%20time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-11-27T09:57:06.774Z",
@@ -82,11 +82,11 @@
                 },
                 {
                     "name": "where",
-                    "value": "startzeitpunkt%3E%3Dnow(days%3D-7)"
+                    "value": "endezeitpunkt%3E%3Dnow(days%3D-7)"
                 },
                 {
                     "name": "group_by",
-                    "value": "range(startzeitpunkt%2C%206%20hour)%20as%20time"
+                    "value": "range(endezeitpunkt%2C%206%20hour)%20as%20time"
                 },
                 {
                     "name": "limit",
@@ -107,7 +107,7 @@
             "colId": "3a334aae-c7b9-497a-a984-8cba2f5c7b82",
             "containerId": "4fa4f72a-fa52-45c7-ad49-7a884f0971b9",
             "name": "rhein 2.0 month",
-            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=startzeitpunkt%3E%3Dnow(days%3D-30)&group_by=range(startzeitpunkt,2days)%20as%20time&limit=900&pretty=false&timezone=UTC",
+            "url": "https://data.bs.ch/api/v2/catalog/datasets/100046/records?select=avg(rus_w_o_s3_te)%20as%20temp&where=endezeitpunkt%3E%3Dnow(days%3D-30)&group_by=range(endezeitpunkt,2days)%20as%20time&limit=900&pretty=false&timezone=UTC",
             "method": "GET",
             "sortNum": 30000,
             "created": "2023-11-27T09:57:06.775Z",
@@ -120,11 +120,11 @@
                 },
                 {
                     "name": "where",
-                    "value": "startzeitpunkt%3E%3Dnow(days%3D-30)"
+                    "value": "endezeitpunkt%3E%3Dnow(days%3D-30)"
                 },
                 {
                     "name": "group_by",
-                    "value": "range(startzeitpunkt,2days)%20as%20time"
+                    "value": "range(endezeitpunkt,2days)%20as%20time"
                 },
                 {
                     "name": "limit",
@@ -286,7 +286,7 @@
                 },
                 {
                     "name": "group_by",
-                    "value": "day(startzeitpunkt)%20as%20time",
+                    "value": "day(endezeitpunkt)%20as%20time",
                     "isDisabled": true,
                     "isPath": false
                 },
