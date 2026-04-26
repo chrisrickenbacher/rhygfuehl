@@ -1,4 +1,6 @@
 ---
+import { formatLocalTime } from '../utils/date';
+
 interface Props {
 	datetime: string | null;
 	label: string;
@@ -17,36 +19,21 @@ const { datetime, label, class: className } = Astro.props;
 </time>
 
 <script>
+	import { formatLocalTime } from '../utils/date';
+
 	function updateLocalTimes() {
 		const times = document.querySelectorAll('.local-time');
+		const lang = document.documentElement.lang || 'de';
+		
 		times.forEach(timeEl => {
 			const datetime = timeEl.getAttribute('datetime');
 			const label = timeEl.getAttribute('data-label');
-			
-			if (!datetime || datetime === 'null' || datetime === '') {
-				timeEl.textContent = '';
-				return;
-			}
+			const formatted = formatLocalTime(datetime, lang);
 
-			try {
-				const date = new Date(datetime);
-				// Check if valid date
-				if (isNaN(date.getTime())) {
-					timeEl.textContent = '';
-					return;
-				}
-
-				const formatted = date.toLocaleString(document.documentElement.lang === 'de' ? 'de-CH' : 'en-GB', {
-					day: '2-digit',
-					month: '2-digit',
-					year: '2-digit',
-					hour: '2-digit',
-					minute: '2-digit',
-				});
-
+			if (formatted) {
 				timeEl.textContent = `${label}: ${formatted}`;
-			} catch (e) {
-				console.error('Error formatting date:', e);
+			} else {
+				timeEl.textContent = '';
 			}
 		});
 	}

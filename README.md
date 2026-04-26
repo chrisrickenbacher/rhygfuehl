@@ -40,6 +40,33 @@ To run this project locally, ensure you have Node.js installed.
    ```
    The static output will be generated in the `dist/` directory.
 
+## Testing
+
+This project has a comprehensive testing suite covering frontend components, end-to-end user flows, and backend logic.
+
+### Running Tests Locally
+
+1. **Frontend Unit Tests (Vitest):**
+   ```bash
+   npm run test:unit
+   ```
+
+2. **E2E Tests (Playwright):**
+   ```bash
+   npx playwright install # First time only
+   npm run test:e2e
+   ```
+
+3. **Backend Tests (pytest):**
+   ```bash
+   pip install -r data/requirements.txt
+   PYTHONPATH=./data pytest tests/backend/
+   ```
+
+### CI/CD
+
+Tests are automatically executed on every Pull Request to `master` and must pass before any manual code change is deployed. Scheduled data updates skip UI testing to ensure high frequency and reliability.
+
 ## Contributing
 
 Contributions, issues and feature requests are welcome!

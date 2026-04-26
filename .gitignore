@@ -89,6 +89,13 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Playwright
+/playwright-report/
+/test-results/
+/@playwright-report/
+/@test-results/
+/@tests/
+
 # Translations
 *.mo
 *.pot

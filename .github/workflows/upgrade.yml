@@ -3,9 +3,15 @@ name: upgrade
 on:
   push:
     branches: master
+    paths-ignore:
+      - 'data/data/**'
 
 jobs:
+  test:
+    name: test
+    uses: ./.github/workflows/test.yml
+
   deployment:
+    needs: [test]
     name: deployment
     uses: ./.github/workflows/deployment.yml
-    

@@ -7,6 +7,32 @@ def updateJsonFile( path, data ):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+def calculate_quality(rain_week, global_radiation_week, water_temp_latest, water_temp_48h_avg):
+    daily_radiation_threshold = 170
+    r0 = rain_week[0] if len(rain_week) > 0 else 0
+    r1 = rain_week[1] if len(rain_week) > 1 else 0
+    r2 = rain_week[2] if len(rain_week) > 2 else 0
+    rain_impact = (r0 * 1.0) + (r1 * 0.5) + (r2 * 0.25)
+
+    uv0 = global_radiation_week[0] if len(global_radiation_week) > 0 else 0
+    uv1 = global_radiation_week[1] if len(global_radiation_week) > 1 else 0
+    uv2 = global_radiation_week[2] if len(global_radiation_week) > 2 else 0
+    uv_bonus = (uv0 + uv1 + uv2) / (3 * daily_radiation_threshold)
+
+    # Base quality based on rain/UV
+    level = 1
+    if rain_impact < 0.5 or (r0 < 1.0 and rain_impact < 2.0 and uv_bonus > 1.2):
+        level = 3
+    elif rain_impact < 3.5 or (r0 < 2.0 and rain_impact < 5.0 and uv_bonus > 1.0):
+        level = 2
+
+    if water_temp_latest < 14.0:
+        level = 1
+    elif (water_temp_latest < 18.0 or water_temp_48h_avg > 22.0) and level > 2:
+        level = 2
+    
+    return level
+
 # Actual temperature
 waterData = {}
 url = 'https://data.bs.ch/api/v2/catalog/datasets/100046/records?order_by=endezeitpunkt%20DESC&limit=2&pretty=false&timezone=UTC'
@@ -295,39 +321,11 @@ for e in d['records']:
         rainData['chart']['month'].append(oldD)
 
 # Quality calculation (using Newest at index 0)
-dailyRadiationTreshold = 170
-r0 = rainData['chart']['week'][0] if len(rainData['chart']['week']) > 0 else 0
-r1 = rainData['chart']['week'][1] if len(rainData['chart']['week']) > 1 else 0
-r2 = rainData['chart']['week'][2] if len(rainData['chart']['week']) > 2 else 0
-rainImpact = (r0 * 1.0) + (r1 * 0.5) + (r2 * 0.25)
-
-uv0 = globalRadiationData['chart']['week'][0] if len(globalRadiationData['chart']['week']) > 0 else 0
-uv1 = globalRadiationData['chart']['week'][1] if len(globalRadiationData['chart']['week']) > 1 else 0
-uv2 = globalRadiationData['chart']['week'][2] if len(globalRadiationData['chart']['week']) > 2 else 0
-uvBonus = (uv0 + uv1 + uv2) / (3 * dailyRadiationTreshold)
-
-# Base quality based on rain/UV
-level = 1
-if rainImpact < 0.5 or (r0 < 1.0 and rainImpact < 2.0 and uvBonus > 1.2):
-    level = 3
-elif rainImpact < 3.5 or (r0 < 2.0 and rainImpact < 5.0 and uvBonus > 1.0):
-    level = 2
-
-# Temperature-based safety caps
-# < 14°C: Discouraged (Cold shock) - based on LATEST temp
-# 14-18°C: Max "Good" (Fresh) - based on LATEST temp
-# > 22°C (48h Avg): Max "Good" (Bacterial growth) - based on SUSTAINED heat
 waterTempLatest = waterData.get('actualValue', 0)
-
-# Calculate 48h average from the last 4 data points (each is a 12h average)
-# Chart week currently has newest data at index 0
 recentTemps = waterData['chart']['week'][:4]
 waterTemp48hAvg = sum(recentTemps) / len(recentTemps) if recentTemps else waterTempLatest
 
-if waterTempLatest < 14.0:
-    level = 1
-elif (waterTempLatest < 18.0 or waterTemp48hAvg > 22.0) and level > 2:
-    level = 2
+level = calculate_quality(rainData['chart']['week'], globalRadiationData['chart']['week'], waterTempLatest, waterTemp48hAvg)
 
 qualityData['quality'] = level
 
