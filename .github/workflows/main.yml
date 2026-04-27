@@ -59,8 +59,8 @@ jobs:
       - name: Generate metadata
         run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
-          TIMESTAMP=$(date -u +'%Y.%m.%d-%H%M')
-          echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"version\": \"$TIMESTAMP ($SHORT_SHA)\"}" > data/data/metadata.json
+          TIMESTAMP=$(date -u +'%Y%m%d-%H%M')
+          echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"version\": \"$SHORT_SHA-$TIMESTAMP\"}" > data/data/metadata.json
 
       - name: Commit data changes
         uses: stefanzweifel/git-auto-commit-action@v5
