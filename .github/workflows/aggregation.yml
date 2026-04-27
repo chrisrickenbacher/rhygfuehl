@@ -30,3 +30,9 @@ jobs:
           commit_message: 'cron data update'
           branch: 'master'
           file_pattern: 'data/data/*.json'
+      - name: Upload Data Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-artifact
+          path: data/data/
+          retention-days: 1

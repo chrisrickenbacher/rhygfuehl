@@ -17,6 +17,13 @@ jobs:
           ref: master
           fetch-depth: 0
 
+      - name: Download Data Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: data-artifact
+          path: data/data/
+        continue-on-error: true
+
       - name: Setup node env
         uses: actions/setup-node@v4
         with:
