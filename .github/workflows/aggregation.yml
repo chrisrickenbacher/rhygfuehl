@@ -18,6 +18,9 @@ jobs:
           cache-dependency-path: ./data/requirements.txt
       - run: pip install -r ./data/requirements.txt
       - run: python ./data/aggregation.py
+      - name: Generate metadata
+        run: |
+          echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"sha\": \"${{ github.sha }}\"}" > data/data/metadata.json
       - name: Upload Aggregated Data
         uses: actions/upload-artifact@v4
         with:
