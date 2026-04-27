@@ -30,9 +30,3 @@ jobs:
           commit_message: 'cron data update'
           branch: 'master'
           file_pattern: 'data/data/*.json'
-      - name: Upload Aggregated Data
-        uses: actions/upload-artifact@v4
-        with:
-          name: aggregated-data
-          path: data/data/
-          retention-days: 1
