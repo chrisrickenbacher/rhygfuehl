@@ -9,6 +9,8 @@ env:
 jobs:
   aggregation:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,9 +25,8 @@ jobs:
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           TIMESTAMP=$(date -u +'%Y.%m.%d-%H%M')
           echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"version\": \"$TIMESTAMP ($SHORT_SHA)\"}" > data/data/metadata.json
-      - name: Upload Aggregated Data
-        uses: actions/upload-artifact@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: aggregated-data
-          path: data/data/
-          retention-days: 1
+          commit_message: 'cron data update'
+          branch: 'master'
+          file_pattern: 'data/data/*.json'
