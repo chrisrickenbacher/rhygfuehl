@@ -6,6 +6,12 @@ on:
       - master
   workflow_call:
 
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
 jobs:
   test-frontend:
     runs-on: ubuntu-latest
@@ -21,9 +27,17 @@ jobs:
       - name: Run Vitest
         run: npm run test:unit
       - name: Install Playwright Browsers
+        if: always()
         run: npx playwright install --with-deps
       - name: Run Playwright
+        if: always()
         run: npm run test:e2e
+      - name: Upload Frontend Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-test-results
+          path: test-results/*.xml
 
   test-backend:
     runs-on: ubuntu-latest
@@ -38,4 +52,25 @@ jobs:
       - name: Install dependencies
         run: pip install -r ./data/requirements.txt
       - name: Run pytest
-        run: PYTHONPATH=./data pytest tests/backend/
+        run: PYTHONPATH=./data pytest tests/backend/ --junitxml=test-results/pytest-results.xml
+      - name: Upload Backend Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: test-results/*.xml
+
+  publish-test-results:
+    name: "Publish Test Results"
+    needs: [test-frontend, test-backend]
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: "artifacts/**/*.xml"
