@@ -18,7 +18,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: aggregated-data
-          path: .
+          path: data/data/
         continue-on-error: true
 
       - name: Debug data directory
