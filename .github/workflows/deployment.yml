@@ -19,6 +19,7 @@ jobs:
         with:
           name: aggregated-data
           path: data/data/
+        continue-on-error: true
 
       - name: Setup node env
         uses: actions/setup-node@v4
