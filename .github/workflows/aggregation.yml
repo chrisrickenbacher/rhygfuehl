@@ -20,7 +20,9 @@ jobs:
       - run: python ./data/aggregation.py
       - name: Generate metadata
         run: |
-          echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"sha\": \"${{ github.sha }}\"}" > data/data/metadata.json
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          TIMESTAMP=$(date -u +'%Y.%m.%d-%H%M')
+          echo "{\"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\", \"version\": \"$TIMESTAMP ($SHORT_SHA)\"}" > data/data/metadata.json
       - name: Upload Aggregated Data
         uses: actions/upload-artifact@v4
         with:
