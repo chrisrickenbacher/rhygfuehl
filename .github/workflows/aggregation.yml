@@ -3,16 +3,14 @@ name: aggregation
 on:
   workflow_call:
 
-permissions:
-  contents: write
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   aggregation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -20,7 +18,9 @@ jobs:
           cache-dependency-path: ./data/requirements.txt
       - run: pip install -r ./data/requirements.txt
       - run: python ./data/aggregation.py
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Upload Aggregated Data
+        uses: actions/upload-artifact@v4
         with:
-          commit_message: 'cron data update'
-          branch: 'master'
+          name: aggregated-data
+          path: data/data/*.json
+          retention-days: 1

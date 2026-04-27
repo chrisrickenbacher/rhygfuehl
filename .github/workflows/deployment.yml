@@ -3,6 +3,9 @@ name: deployment
 on:
   workflow_call:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -10,6 +13,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Download Aggregated Data
+        uses: actions/download-artifact@v4
+        with:
+          name: aggregated-data
+          path: data/data/
 
       - name: Setup node env
         uses: actions/setup-node@v4
