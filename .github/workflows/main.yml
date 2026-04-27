@@ -1,4 +1,4 @@
-name: Data & Deploy
+name: Main (Refresh Data & Deploy)
 
 on:
   schedule:
