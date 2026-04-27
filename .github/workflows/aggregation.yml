@@ -25,5 +25,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aggregated-data
-          path: data/data/
+          path: data/
           retention-days: 1

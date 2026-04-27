@@ -18,8 +18,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: aggregated-data
-          path: data/data/
+          path: .
         continue-on-error: true
+
+      - name: Debug data directory
+        run: |
+          ls -R data/data/
+          cat data/data/metadata.json || echo "metadata.json not found"
 
       - name: Setup node env
         uses: actions/setup-node@v4
