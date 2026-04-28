@@ -2,7 +2,7 @@ name: Main (Refresh Data & Deploy)
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '8,23,38,53 * * * *'
   push:
     branches:
       - master
