@@ -12,7 +12,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/tailwind": "^6.0.2",
     "@iconify-json/material-symbols": "^1.2.69",
     "@vite-pwa/astro": "^0.4.0",
     "astro": "^4.5.0",
