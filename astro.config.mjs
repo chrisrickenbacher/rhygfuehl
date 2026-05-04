@@ -1,11 +1,10 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import AstroPWA from '@vite-pwa/astro';
 import icon from 'astro-icon';
 
 export default defineConfig({
   integrations: [
-    tailwind(),
     icon(),
     AstroPWA({
       registerType: 'prompt',
@@ -58,5 +57,8 @@ export default defineConfig({
       },
     }),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   output: 'static',
 });

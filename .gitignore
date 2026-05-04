@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+.astro
 
 
 # local env files
@@ -259,3 +260,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+.astro

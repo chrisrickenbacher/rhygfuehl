@@ -12,9 +12,9 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^6.0.2",
     "@iconify-json/material-symbols": "^1.2.69",
-    "@vite-pwa/astro": "^0.4.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "@vite-pwa/astro": "^1.2.0",
     "astro": "^6.2.2",
     "astro-icon": "^1.1.5",
     "chart.js": "^4.4.2",
@@ -25,12 +25,20 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@playwright/test": "^1.59.1",
-    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^25.6.0",
     "@vitest/ui": "^4.1.5",
     "esbuild": "^0.28.0",
     "jsdom": "^29.1.1",
     "jsdom-global": "^3.0.2",
     "vitest": "^4.1.5"
+  },
+  "overrides": {
+    "@vite-pwa/astro": {
+      "astro": "$astro"
+    },
+    "vite": "7.3.2",
+    "serialize-javascript": "^7.0.5",
+    "yaml": "^2.8.4"
   }
 }
