@@ -8,30 +8,51 @@ def updateJsonFile( path, data ):
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 def calculate_quality(rain_week, global_radiation_week, water_temp_latest, water_temp_48h_avg):
-    daily_radiation_threshold = 170
+    rad_threshold = 170
     r0 = rain_week[0] if len(rain_week) > 0 else 0
     r1 = rain_week[1] if len(rain_week) > 1 else 0
     r2 = rain_week[2] if len(rain_week) > 2 else 0
     rain_impact = (r0 * 1.0) + (r1 * 0.5) + (r2 * 0.25)
 
-    uv0 = global_radiation_week[0] if len(global_radiation_week) > 0 else 0
-    uv1 = global_radiation_week[1] if len(global_radiation_week) > 1 else 0
-    uv2 = global_radiation_week[2] if len(global_radiation_week) > 2 else 0
-    uv_bonus = (uv0 + uv1 + uv2) / (3 * daily_radiation_threshold)
+    rad0 = global_radiation_week[0] if len(global_radiation_week) > 0 else 0
+    rad1 = global_radiation_week[1] if len(global_radiation_week) > 1 else 0
+    rad2 = global_radiation_week[2] if len(global_radiation_week) > 2 else 0
+    rad_bonus = (rad0 + rad1 + rad2) / (3 * rad_threshold)
 
-    # Base quality based on rain/UV
-    level = 1
-    if rain_impact < 0.5 or (r0 < 1.0 and rain_impact < 2.0 and uv_bonus > 1.2):
-        level = 3
-    elif rain_impact < 3.5 or (r0 < 2.0 and rain_impact < 5.0 and uv_bonus > 1.0):
-        level = 2
-
-    if water_temp_latest < 14.0:
-        level = 1
-    elif (water_temp_latest < 18.0 or water_temp_48h_avg > 22.0) and level > 2:
-        level = 2
+    # 1. Water Quality Index (Microbiological)
+    # Default is discouraged
+    quality_index = 1
     
-    return level
+    # Excellent (Level 3)
+    if rain_impact < 0.5 or (r0 < 1.0 and rain_impact < 2.0 and rad_bonus > 1.2):
+        quality_index = 3
+    # Good (Level 2)
+    elif (rain_impact < 3.5 and r0 < 1.5) or (r0 < 1.5 and rain_impact < 5.0 and rad_bonus > 1.0):
+        quality_index = 2
+    
+    # Hard Scientific Caps (Safety First)
+    if rad_bonus < 0.6: # Overcast Penalty
+        quality_index = min(quality_index, 1)
+    if water_temp_48h_avg > 22.0: # Thermal Risk
+        quality_index = min(quality_index, 1)
+    if rain_impact >= 5.0: # Extreme Rain Impact
+        quality_index = min(quality_index, 1)
+    if r0 >= 2.0: # Immediate Active Runoff (even if bonus is high, surface disinfection isn't enough)
+        quality_index = min(quality_index, 1)
+
+    # 2. Swimmer Safety Index (Physical)
+    safety_index = 1
+    if water_temp_latest >= 18.0:
+        safety_index = 3
+    elif water_temp_latest >= 14.0:
+        safety_index = 2
+    
+    # Final status is the bottleneck of both
+    return {
+        'level': min(quality_index, safety_index),
+        'quality': quality_index,
+        'safety': safety_index
+    }
 
 # Actual temperature
 waterData = {}
@@ -325,9 +346,13 @@ waterTempLatest = waterData.get('actualValue', 0)
 recentTemps = waterData['chart']['week'][:4]
 waterTemp48hAvg = sum(recentTemps) / len(recentTemps) if recentTemps else waterTempLatest
 
-level = calculate_quality(rainData['chart']['week'], globalRadiationData['chart']['week'], waterTempLatest, waterTemp48hAvg)
+prognosis = calculate_quality(rainData['chart']['week'], globalRadiationData['chart']['week'], waterTempLatest, waterTemp48hAvg)
 
-qualityData['quality'] = level
+qualityData['quality'] = prognosis['level']
+qualityData['indices'] = {
+    'quality': prognosis['quality'],
+    'safety': prognosis['safety']
+}
 
 # REVERSE chart data for 'Old -> New' display
 globalRadiationData['chart']['week'].reverse()

@@ -5,13 +5,17 @@ import LocalTime from './LocalTime.astro';
 
 interface Props {
 	quality: number;
+	indices: {
+		quality: number;
+		safety: number;
+	};
 	lastUpdate: string;
 	updateLabel: string;
 	t: any;
 	data: any[];
 }
 
-const { quality, lastUpdate, updateLabel, t, data } = Astro.props;
+const { quality, indices, lastUpdate, updateLabel, t, data } = Astro.props;
 
 const statusMap = {
 	3: {
@@ -34,7 +38,21 @@ const statusMap = {
 	}
 };
 
+const qualityIndexMap = {
+	3: { label: t.qualityExcellent, color: 'text-green-600 dark:text-green-400' },
+	2: { label: t.qualityGood, color: 'text-yellow-600 dark:text-yellow-400' },
+	1: { label: t.qualityDiscouraged, color: 'text-red-600 dark:text-red-400' }
+};
+
+const safetyIndexMap = {
+	3: { label: t.safetySafe, color: 'text-green-600 dark:text-green-400' },
+	2: { label: t.safetyCaution, color: 'text-yellow-600 dark:text-yellow-400' },
+	1: { label: t.safetyDiscouraged, color: 'text-red-600 dark:text-red-400' }
+};
+
 const status = statusMap[quality as keyof typeof statusMap] || statusMap[1];
+const qualityStatus = qualityIndexMap[indices?.quality as keyof typeof qualityIndexMap] || qualityIndexMap[1];
+const safetyStatus = safetyIndexMap[indices?.safety as keyof typeof safetyIndexMap] || safetyIndexMap[1];
 
 const radiationData = data.find(d => d.measure === 'globalRadiation');
 const rainData = data.find(d => d.measure === 'rain');
@@ -63,6 +81,17 @@ const rainData = data.find(d => d.measure === 'rain');
 	<div class="collapse-grid">
 		<div class="collapse-inner">
 			<div class="mt-4 space-y-6">
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div class="bg-darkblue/5 dark:bg-white/5 p-4 rounded-xl space-y-1">
+						<div class="text-[10px] uppercase tracking-wider opacity-50 font-bold">{t.waterQualityIndex}</div>
+						<div class={`text-lg font-medium ${qualityStatus.color}`}>{qualityStatus.label}</div>
+					</div>
+					<div class="bg-darkblue/5 dark:bg-white/5 p-4 rounded-xl space-y-1">
+						<div class="text-[10px] uppercase tracking-wider opacity-50 font-bold">{t.swimmerSafetyIndex}</div>
+						<div class={`text-lg font-medium ${safetyStatus.color}`}>{safetyStatus.label}</div>
+					</div>
+				</div>
+
 				<p class="text-sm opacity-80 leading-relaxed">
 					{t.prognosisDescription}
 				</p>
