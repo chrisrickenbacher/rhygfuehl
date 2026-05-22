@@ -17,6 +17,40 @@ const t = lang === 'de' ? de : en;
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://rhygfuehl.ch');
 const socialImageURL = new URL('/apple-touch-icon.png', 'https://rhygfuehl.ch');
+
+const datasetSchema = {
+	"@context": "https://schema.org",
+	"@type": "Dataset",
+	"name": lang === 'de' ? "Rheindaten Basel Aggregation" : "Rhine Data Basel Aggregation",
+	"description": lang === 'de' 
+		? "Aggregierte Umweltdaten des Rheins in Basel, einschliesslich Wassertemperatur, Globalstrahlung und Niederschlag zur Einschätzung der Badequalität."
+		: "Aggregated environmental data of the Rhine in Basel, including water temperature, global radiation, and precipitation for assessing swimming quality.",
+	"url": "https://rhygfuehl.ch",
+	"license": "https://creativecommons.org/licenses/by/4.0/",
+	"isBasedOn": "https://data.bs.ch/",
+	"creator": {
+		"@type": "Organization",
+		"name": "rhygfuehl.ch"
+	},
+	"variableMeasured": [
+		{
+			"@type": "PropertyValue",
+			"name": lang === 'de' ? "Wassertemperatur" : "Water Temperature",
+			"unitText": "°C"
+		},
+		{
+			"@type": "PropertyValue",
+			"name": lang === 'de' ? "Globalstrahlung" : "Global Radiation",
+			"unitText": "W/m²"
+		},
+		{
+			"@type": "PropertyValue",
+			"name": lang === 'de' ? "Niederschlag" : "Precipitation",
+			"unitText": "mm"
+		}
+	],
+	"citation": "https://www.kantonslabor.bs.ch/umwelt/badewasser/rhein.html"
+};
 ---
 
 <!doctype html>
@@ -30,6 +64,9 @@ const socialImageURL = new URL('/apple-touch-icon.png', 'https://rhygfuehl.ch');
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonicalURL} />
+
+		<!-- Structured Data -->
+		<script type="application/ld+json" set:html={JSON.stringify(datasetSchema)} />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
