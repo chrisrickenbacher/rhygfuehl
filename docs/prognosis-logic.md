@@ -1,7 +1,6 @@
 # Rhine Swimming Prognosis Logic
 
-This document defines the automated estimation logic used to determine if swimming in the Rhine at Basel is currently advisable. The prognosis factors in water quality (bacterial risk from rain) and physical safety (temperature).
-
+This document defines the automated estimation logic used to determine if swimming in the Rhine at Basel is currently advisable. The prognosis is calculated by assessing two independent indices: **Water Quality** (microbiological risk) and **Swimmer Safety** (physical risk).
 
 ## Input Parameters
 Data is fetched every 15 minutes from the [Basel-Stadt Open Data Portal](https://data.bs.ch/).
@@ -9,9 +8,8 @@ Data is fetched every 15 minutes from the [Basel-Stadt Open Data Portal](https:/
 | Parameter | Station | Unit | Metric Used |
 | :--- | :--- | :--- | :--- |
 | **Precipitation** | Rheinpromenade 2 | mm/24h | Weighted 72h impact ($I$) |
-| **Global Radiation** | St. Johann | W/m² | 72h average recovery bonus ($B$) |
+| **Global Radiation** | St. Johann | W/m² | 72h average radiation bonus ($B$) |
 | **Water Temperature** | Weil am Rhein | °C | Latest ($T_{now}$) & 48h Average ($T_{avg}$) |
-
 
 ## Calculation Models
 
@@ -23,40 +21,46 @@ Rain triggers combined sewer overflows (CSO), increasing bacterial load. This im
 
 **Formula:** $I = (R_0 \times 1.0) + (R_1 \times 0.5) + (R_2 \times 0.25)$
 
-### B. UV Recovery Bonus ($B$)
-UV radiation acts as a natural disinfectant. High radiation speeds up the "clearing" of the river after rain.
-- $UV_{threshold}$: 170 W/m² (Reference for a sunny day)
+### B. Radiation Bonus ($B$)
+Global radiation acts as a natural disinfectant. High radiation speeds up the inactivation of fecal indicators (e.g., *E. coli*).
+- $Rad_{threshold}$: 170 W/m² (Reference for a sunny day)
 
-**Formula:** $B = \frac{\text{Avg}(UV_{0..2})}{UV_{threshold}}$
+**Formula:** $B = \frac{\text{Avg}(Rad_{0..2})}{Rad_{threshold}}$
 
+---
 
 ## Decision Matrix
 
-The prognosis follows a "Safety First" principle. Temperature overrides quality if safety risks are present.
+The overall status is the **minimum** of the Water Quality Index and the Swimmer Safety Index.
 
-### Level 3: Excellent (Green)
-**Condition:** Perfect water quality AND safe temperature.
-- **Quality:** $I < 0.5$ (Dry) OR ($R_0 < 1.0$ AND $I < 2.0$ AND $B > 1.2$)
-- **Safety:** $T_{now} \ge 18^\circ\text{C}$ AND $T_{avg} \le 22^\circ\text{C}$
+### 1. Water Quality Index (Microbiological)
+Focuses on bacterial risk from rain, overflows, and lack of natural disinfection.
 
-### Level 2: Good (Yellow)
-**Condition:** Acceptable quality OR "Fresh/Warm" water.
-- **Quality:** $I < 3.5$ OR ($R_0 < 2.0$ AND $I < 5.0$ AND $B > 1.0$)
-- **Safety:** $T_{now} \ge 14^\circ\text{C}$
-- *Note: Status is capped at "Good" if water is $14-18^\circ\text{C}$ (Cold risk) or $> 22^\circ\text{C}$ (Bacterial risk).*
+| Level | Status | Condition |
+| :--- | :--- | :--- |
+| **3** | **Excellent** | $I < 0.5$ (Dry) OR ($R_0 < 1.0$ AND $I < 2.0$ AND $B > 1.2$) |
+| **2** | **Good** | ($I < 3.5$ OR ($R_0 < 1.5$ AND $I < 5.0$ AND $B > 1.0$)) AND $B \ge 0.6$ |
+| **1** | **Discouraged**| *Standard fallback* if not meeting Level 2/3. Triggered by $I \ge 5.0$, $R_0 \ge 1.5$, $B < 0.6$ (Overcast), or $T_{avg} > 22^\circ\text{C}$ (Thermal). |
 
-### Level 1: Discouraged (Red)
-**Condition:** Poor quality OR dangerous temperature.
-- **Quality:** $I \ge 3.5$ (Significant rain/overflow risk)
-- **Safety:** $T_{now} < 14^\circ\text{C}$ (High cold-shock risk)
+### 2. Swimmer Safety Index (Physical)
+Focuses on immediate physical dangers, primarily cold shock.
 
+| Level | Status | Condition |
+| :--- | :--- | :--- |
+| **3** | **Safe** | $T_{now} \ge 18^\circ\text{C}$ |
+| **2** | **Caution** | $14^\circ\text{C} \le T_{now} < 18^\circ\text{C}$ (Cold water risk) |
+| **1** | **Discouraged**| $T_{now} < 14^\circ\text{C}$ (High cold-shock risk) |
+
+---
 
 ## Scientific Rationale
 
+- **Decoupling Indices:** Microbiological quality (bacteria) and physical safety (temperature) are independent variables. A river can be bacterially clean but dangerously cold. Separating these ensures transparency.
 - **The 3.5mm Threshold:** In Basel, sewer overflows typically begin after 3-5mm of rain. Our threshold of 3.5 reflects this tipping point.
+- **Radiation Bonus (Global vs. UV):** Global radiation (W/m²) is used as a proxy for total solar energy. Total insolation is a proven predictor of bacterial decline in turbid waters.
+- **Overcast Penalty ($B < 0.6$):** Data from the Kantonslabor BS (2025) shows that on overcast days without rain, 54% of samples are unsafe due to lack of natural disinfection.
 - **The 14°C Rule:** Water below 14°C significantly increases the risk of "Cold Shock Response" (involuntary gasping/hyperventilation), which is a leading cause of drowning.
-- **The 22°C Average:** Sustained high temperatures (especially overnight) promote the rapid growth of intestinal bacteria. A 48h average is used to filter out short daytime peaks.
-
+- **Thermal Risk ($22^\circ\text{C}$ Average):** Sustained high temperatures promote rapid microbial growth.
 
 ## Disclaimer
 This is an **automated estimate** based on environmental proxies. It is **not** a real-time biological measurement. Swimming in the Rhine is always at your own risk. Local pollution events can occur unpredictably.
