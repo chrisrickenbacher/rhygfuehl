@@ -15,7 +15,7 @@ test.describe('Home Page', () => {
     const airTempHeader = page.getByRole('heading', { name: /Lufttemperatur/i });
     await expect(airTempHeader.first()).toBeVisible();
 
-    const prognosisHeader = page.getByRole('heading', { name: /Schwimm-Prognose/i });
+    const prognosisHeader = page.getByRole('heading', { name: /Bade-Empfehlung/i });
     await expect(prognosisHeader.first()).toBeVisible();
   });
 
@@ -46,7 +46,7 @@ test.describe('Home Page', () => {
       const waterTempHeaderEn = page.getByRole('heading', { name: /Water temperature/i });
       await expect(waterTempHeaderEn.first()).toBeVisible();
 
-      const prognosisHeaderEn = page.getByRole('heading', { name: /Swimming Prognosis/i });
+      const prognosisHeaderEn = page.getByRole('heading', { name: /Swimming Recommendation/i });
       await expect(prognosisHeaderEn.first()).toBeVisible();
     }
   });
