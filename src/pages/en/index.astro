@@ -22,7 +22,21 @@ const getPrognosisLabel = (q: number, t: any) => {
 	return t.prognosisDiscouraged;
 };
 
+const getQualityLabel = (q: number, t: any) => {
+	if (q === 3) return t.qualityExcellent;
+	if (q === 2) return t.qualityGood;
+	return t.qualityDiscouraged;
+};
+
+const getSafetyLabel = (s: number, t: any) => {
+	if (s === 3) return t.safetySafe;
+	if (s === 2) return t.safetyCaution;
+	return t.safetyDiscouraged;
+};
+
 const prognosisLabel = getPrognosisLabel(qualityData.quality, en);
+const qualityLabel = getQualityLabel(qualityData.indices?.quality, en);
+const safetyLabel = getSafetyLabel(qualityData.indices?.safety, en);
 
 const faqSchema = {
 	"@context": "https://schema.org",
@@ -49,7 +63,10 @@ const faqSchema = {
 			"name": en.faqQ3,
 			"acceptedAnswer": {
 				"@type": "Answer",
-				"text": en.faqA3.replace('%prognosis%', prognosisLabel)
+				"text": en.faqA3
+					.replace('%prognosis%', prognosisLabel)
+					.replace('%quality%', qualityLabel)
+					.replace('%safety%', safetyLabel)
 			}
 		}
 	]
