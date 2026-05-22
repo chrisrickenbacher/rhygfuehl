@@ -1,6 +1,6 @@
-# Rhine Swimming Prognosis Logic
+# Rhine Swimming Indication Logic
 
-This document defines the automated estimation logic used to determine if swimming in the Rhine at Basel is currently advisable. The prognosis is calculated by assessing two independent indices: **Water Quality** (microbiological risk) and **Swimmer Safety** (physical risk).
+This document defines the automated estimation logic used to determine if swimming in the Rhine at Basel is currently advisable. The indication is calculated by assessing two independent indices: **Water Quality** (microbiological risk) and **Swimmer Safety** (physical risk).
 
 ## Input Parameters
 Data is fetched every 15 minutes from the [Basel-Stadt Open Data Portal](https://data.bs.ch/).
