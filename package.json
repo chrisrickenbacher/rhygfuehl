@@ -20,7 +20,7 @@
     "chart.js": "^4.4.2",
     "tailwindcss": "^4.2.4",
     "vite-plugin-pwa": "^1.2.0",
-    "workbox-window": "^7.0.0"
+    "workbox-window": "^7.4.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
