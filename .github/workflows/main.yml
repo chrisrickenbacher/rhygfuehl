@@ -1,12 +1,12 @@
 name: Main (Refresh Data & Deploy)
 
-on:
-  schedule:
-    - cron: '8,23,38,53 * * * *'
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: '8,23,38,53 * * * *'
+#   push:
+#     branches:
+#       - master
+#   workflow_dispatch:
 
 permissions:
   contents: write
