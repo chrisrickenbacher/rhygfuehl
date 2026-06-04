@@ -1,5 +1,13 @@
 <div align="center">
 
+# 🚨 MOVED TO CODEBERG 🚨
+
+**This repository has been officially migrated to Codeberg.** 
+**Please find all up-to-date source code, issues, and documentation here:** 
+👉 **[https://codeberg.org/chric/rhygfuehl](https://codeberg.org/chric/rhygfuehl)** 👈
+
+---
+
 # rhygfuehl.ch
 
 
